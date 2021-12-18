@@ -1,9 +1,10 @@
-INSERT INTO users(firstname, lastname, email, password, username, role) VALUES ('Joy','Halvorson','kayla.hilpert@gmail.com','7b4516dcd757b4cb40bc7cb23bec9534e32c9c39','keeling.else','user'),
-                         ('Ona','Orn','ereilly@gmail.com','bf2039937cc6b1240a2e4e5e99bc46ee2e961ed0','parker.annie','user'),
-                         ('Mabelle','Nienow','dawn47@hotmail.com','af46fcd85eaa2fcbea9762ffc0a7950565280fd9','forrest75','user'),
-                         ('Leopoldo','Romaguera','nathaniel69@hotmail.com','3dfe955fdb4fddd5c1e187022d986413135219cd','hettie48','user'),
-                         ('Mckenna','Kuhn','botsford.carlee@yahoo.com','3d549aa0d7d2dfd7f4d1e8ae00a5691e4c2c6828','jack.sauer','user'),
-                         ('Admin','Admin','admin@shop.com','3d549aa0d7d2dfd7f4d1e8ae00a5691e4c2c6828','admin','admin');
+INSERT INTO users(firstname, lastname, email, password, username, role) VALUES ('Joy','Halvorson','kayla.hilpert@gmail.com','$2a$10$ABLI.6bEhm5FyVSBlsuTWuzJ.Mfcsh2E9cAddatiH9G1A7wasTjn6','keeling.else','user'),
+                         ('Ona','Orn','ereilly@gmail.com','$2a$10$ABLI.6bEhm5FyVSBlsuTWuzJ.Mfcsh2E9cAddatiH9G1A7wasTjn6','parker.annie','user'),
+                         ('Mabelle','Nienow','dawn47@hotmail.com','$2a$10$ABLI.6bEhm5FyVSBlsuTWuzJ.Mfcsh2E9cAddatiH9G1A7wasTjn6','forrest75','user'),
+                         ('Leopoldo','Romaguera','nathaniel69@hotmail.com','$2a$10$ABLI.6bEhm5FyVSBlsuTWuzJ.Mfcsh2E9cAddatiH9G1A7wasTjn6','hettie48','user'),
+                         ('Mckenna','Kuhn','botsford.carlee@yahoo.com','$2a$10$ABLI.6bEhm5FyVSBlsuTWuzJ.Mfcsh2E9cAddatiH9G1A7wasTjn6','jack.sauer','user'),
+                          ('Test','Kuhn','botsford.carlee@yahoo.com','$2a$10$ABLI.6bEhm5FyVSBlsuTWuzJ.Mfcsh2E9cAddatiH9G1A7wasTjn6','test','user'),
+                         ('Admin','Admin','admin@shop.com','$2a$10$zniXjF0e3Q3mc/AESAwUZ.0nPHUUI2dVjbrx9JW7muKAgjqSn1dDe','admin','admin');
 
 INSERT INTO items(id, name, producer, description, price, category) VALUES (1, 'The Misty Cup', 'Beier Ltd','Et sunt culpa unde distinctio quos.',244.30, 'garden'),
                            (2, 'The Begging Jug', 'Parker, Hyatt and Kris','Quos vel ut esse incidunt minima minima quae.',302.10, 'home'),

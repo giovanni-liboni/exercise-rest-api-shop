@@ -72,20 +72,20 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 	router.GET("/items/:id", serveHTTP(hds.ItemHandler.GetItem)) //TODO
 
 	// Authenticated routes (user must be logged in)
-	router.POST("/items/:id/purchase")       //TODO
-	router.GET("/users/me/orders")           //TODO
-	router.GET("/users/me/orders/:id/items") //TODO
+	router.POST("/items/:id/purchase", mds.AuthMiddleware.Middleware.MiddlewareFunc())       //TODO
+	router.GET("/users/me/orders", mds.AuthMiddleware.Middleware.MiddlewareFunc())           //TODO
+	router.GET("/users/me/orders/:id/items", mds.AuthMiddleware.Middleware.MiddlewareFunc()) //TODO
 
 	// Authentication routes
-	router.POST("/auth/login")    //TODO
-	router.POST("/auth/logout")   //TODO
+	router.POST("/auth/login", mds.AuthMiddleware.Middleware.LoginHandler)
+	router.POST("/auth/logout", mds.AuthMiddleware.Middleware.LogoutHandler)
 	router.POST("/auth/register") //TODO
-	router.POST("/auth/refresh")  //TODO
+	router.POST("/auth/refresh", mds.AuthMiddleware.Middleware.RefreshHandler)
 
 	// Admin routes
-	router.GET("/orders/statistics") //TODO
-	router.POST("/items", serveHTTP(hds.ItemHandler.CreateItem)) // TODO (admin)
-	router.PUT("/items/:id", serveHTTP(hds.ItemHandler.UpdateItem)) //TODO (admin)
-	router.DELETE("/items/:id", serveHTTP(hds.ItemHandler.DeleteItem)) //TODO (admin)
+	router.GET("/orders/statistics", mds.AuthMiddleware.Middleware.MiddlewareFunc()) //TODO
+	router.POST("/items", serveHTTP(hds.ItemHandler.CreateItem), mds.AuthMiddleware.Middleware.MiddlewareFunc()) // TODO (admin)
+	router.PUT("/items/:id", serveHTTP(hds.ItemHandler.UpdateItem), mds.AuthMiddleware.Middleware.MiddlewareFunc()) //TODO (admin)
+	router.DELETE("/items/:id", serveHTTP(hds.ItemHandler.DeleteItem), mds.AuthMiddleware.Middleware.MiddlewareFunc()) //TODO (admin)
 
 }

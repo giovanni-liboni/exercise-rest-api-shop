@@ -36,3 +36,63 @@ func TestGetAllItemsRoute(t *testing.T) {
 		assert.Equal(t, "The Misty Cup", gjson.Get(r.Body.String(), "data.0.name").String())
 		})
 }
+
+func TestLoginRoute_SimpleAuth(t *testing.T) {
+	globalConfig := config.LoadConfig("../.test.env")
+	// Initialize the router
+	router := SetupRouter(globalConfig)
+
+	r := gofight.New()
+
+	r.POST("/auth/login").
+		SetJSON(gofight.D{
+			"username": "test",
+			"password": "test",
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			assert.Equal(t, http.StatusOK, r.Code)
+			assert.NotEmpty(t, gjson.Get(r.Body.String(), "token").String())
+		})
+}
+
+func TestLogoutRoute(t *testing.T) {
+	globalConfig := config.LoadConfig("../.test.env")
+	// Initialize the router
+	router := SetupRouter(globalConfig)
+
+	r := gofight.New()
+
+	r.POST("/auth/logout").
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			assert.Equal(t, http.StatusOK, r.Code)
+		})
+}
+
+func TestUsersMeRoute(t *testing.T) {
+	globalConfig := config.LoadConfig("../.test.env")
+	// Initialize the router
+	router := SetupRouter(globalConfig)
+	r := gofight.New()
+
+	var token string
+
+	r.POST("/login").
+		SetJSON(gofight.D{
+			"username": "test",
+			"password": "test",
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			// Retrieve the bearer token from the body
+			tokenRes := gjson.Get(r.Body.String(), "token")
+			token = tokenRes.String()
+		})
+
+	r.GET("/users/me").
+		SetHeader(gofight.H{
+			"Authorization": "Bearer " + token,
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			assert.Equal(t, http.StatusOK, r.Code)
+			assert.Equal(t, "test", gjson.Get(r.Body.String(), "data.username").String())
+		})
+}

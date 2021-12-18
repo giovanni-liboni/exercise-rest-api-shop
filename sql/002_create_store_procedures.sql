@@ -38,16 +38,22 @@ BEGIN
     select * from users;
 END;
 
-DROP PROCEDURE IF EXISTS sp_GetUser;
-CREATE PROCEDURE sp_GetUser(IN idUser int)
+DROP PROCEDURE IF EXISTS sp_GetUserById;
+CREATE PROCEDURE sp_GetUserById(IN idUser int)
 BEGIN
     select * from users where id=idUser;
 END;
 
-DROP PROCEDURE IF EXISTS sp_CreateUser;
-CREATE PROCEDURE sp_CreateUser(IN firstName varchar(255), IN lastName varchar(255), IN email varchar(255), IN password varchar(255))
+DROP PROCEDURE IF EXISTS sp_GetUserByUsername;
+CREATE PROCEDURE sp_GetUserByUsername(IN _username varchar(255))
 BEGIN
-    insert into users (firstname, lastname, email, password, username, role) VALUES (firstName, lastName, email, password, email, 'user');
+    select * from users where userName=_username;
+END;
+
+DROP PROCEDURE IF EXISTS sp_CreateUser;
+CREATE PROCEDURE sp_CreateUser(IN firstName varchar(255), IN lastName varchar(255), IN email varchar(255), IN username varchar(255), IN password varchar(255))
+BEGIN
+    insert into users (firstname, lastname, email, password, username, role) VALUES (firstName, lastName, email, password, username, 'user');
 END;
 
 DROP PROCEDURE IF EXISTS sp_UpdateUser;

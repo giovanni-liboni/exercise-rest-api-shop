@@ -9,6 +9,6 @@ type Order struct {
 	PaymentID      int     `json:"payment_id"`
 	Total_price    float32   `json:"total_price"`
 	Status         string    `json:"status"`
-	Created_at     time.Time `json:"created_at"`
-	Updated_at     time.Time `json:"updated_at"`
+	CreatedAt   time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }

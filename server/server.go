@@ -64,11 +64,12 @@ func ServeHTTP(handle appHandler) gin.HandlerFunc {
 
 // initRoutes initializes the routes for the API endpoints
 func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
+	serveHTTP := ServeHTTP
 
 	// Public routes
 	router.GET("/dashboard") //TODO
-	router.GET("/items")     //TODO
-	router.GET("/items/:id") //TODO
+	router.GET("/items", serveHTTP(hds.ItemHandler.GetAllItems))
+	router.GET("/items/:id", serveHTTP(hds.ItemHandler.GetItem)) //TODO
 
 	// Authenticated routes (user must be logged in)
 	router.POST("/items/:id/purchase")       //TODO
@@ -83,8 +84,8 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 
 	// Admin routes
 	router.GET("/orders/statistics") //TODO
-	router.POST("/items")            //TODO
-	router.PUT("/items/:id")         //TODO
-	router.DELETE("/items/:id")      //TODO
+	router.POST("/items", serveHTTP(hds.ItemHandler.CreateItem)) // TODO (admin)
+	router.PUT("/items/:id", serveHTTP(hds.ItemHandler.UpdateItem)) //TODO (admin)
+	router.DELETE("/items/:id", serveHTTP(hds.ItemHandler.DeleteItem)) //TODO (admin)
 
 }

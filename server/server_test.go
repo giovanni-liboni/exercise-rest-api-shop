@@ -68,7 +68,7 @@ func TestLogoutRoute(t *testing.T) {
 		})
 }
 
-func TestUsersMeRoute(t *testing.T) {
+func TestOrderStatisticsRoute_UserGroup(t *testing.T) {
 	globalConfig := config.LoadConfig("../.test.env")
 	// Initialize the router
 	router := SetupRouter(globalConfig)
@@ -76,7 +76,7 @@ func TestUsersMeRoute(t *testing.T) {
 
 	var token string
 
-	r.POST("/login").
+	r.POST("/auth/login").
 		SetJSON(gofight.D{
 			"username": "test",
 			"password": "test",
@@ -86,13 +86,38 @@ func TestUsersMeRoute(t *testing.T) {
 			tokenRes := gjson.Get(r.Body.String(), "token")
 			token = tokenRes.String()
 		})
+	r.GET("/orders/statistics").
+		SetHeader(gofight.H{
+			"Authorization": "Bearer " + token,
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			assert.Equal(t, http.StatusUnauthorized, r.Code)
+		})
+}
 
-	r.GET("/users/me").
+func TestOrderStatisticsRoute_AdminGroup(t *testing.T) {
+	globalConfig := config.LoadConfig("../.test.env")
+	// Initialize the router
+	router := SetupRouter(globalConfig)
+	r := gofight.New()
+
+	var token string
+
+	r.POST("/auth/login").
+		SetJSON(gofight.D{
+			"username": "admin",
+			"password": "admin",
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			// Retrieve the bearer token from the body
+			tokenRes := gjson.Get(r.Body.String(), "token")
+			token = tokenRes.String()
+		})
+	r.GET("/orders/statistics").
 		SetHeader(gofight.H{
 			"Authorization": "Bearer " + token,
 		}).
 		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 			assert.Equal(t, http.StatusOK, r.Code)
-			assert.Equal(t, "test", gjson.Get(r.Body.String(), "data.username").String())
 		})
 }

@@ -52,7 +52,7 @@
 
 The shopping website backend implements these features:
 
-- [ ] Show all available items
+- [X] Show all available items
 - [ ] Purchase a single item (logged-in user)
 - [ ] Show purchased items (logged-in user)
 - [ ] Show details for a purchased item (logged-in user)

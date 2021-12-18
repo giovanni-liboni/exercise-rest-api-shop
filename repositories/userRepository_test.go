@@ -27,7 +27,6 @@ func TestUserRepository_GetAllUsers(t *testing.T) {
 		AddRow("Jane", "Doe", "jane.doe@gmail.com", "janedoe", "password", "user", timestamp, timestamp).
 		AddRow("John", "Smith", "john.smith@gmail.com", "johnsmith", "password", "user", timestamp, timestamp)
 
-
 	// Expect the query to be called with the correct SQL
 	mock.ExpectQuery("CALL sp_GetUsers").WillReturnRows(rows)
 
@@ -140,11 +139,11 @@ func TestUserRepository_CreateUser_NotFound(t *testing.T) {
 	// Define the user
 	user := &entities.User{
 		Firstname: "John",
-		Lastname: "Doe",
-		Email: "john.doe@gmail.com",
-		Username: "johndoe",
-		Password: "password",
-		Role: "user",
+		Lastname:  "Doe",
+		Email:     "john.doe@gmail.com",
+		Username:  "johndoe",
+		Password:  "password",
+		Role:      "user",
 	}
 
 	mock.ExpectBegin()
@@ -176,11 +175,11 @@ func TestUserRepository_CreateUser_Found(t *testing.T) {
 	// Define the user
 	user := &entities.User{
 		Firstname: "John",
-		Lastname: "Doe",
-		Email: "john.doe@gmail.com",
-		Username: "johndoe",
-		Password: "password",
-		Role: "user",
+		Lastname:  "Doe",
+		Email:     "john.doe@gmail.com",
+		Username:  "johndoe",
+		Password:  "password",
+		Role:      "user",
 	}
 
 	rows := sqlmock.NewRows([]string{"id", "firstname", "lastname", "email", "username", "password", "role", "created_at", "updated_at"}).

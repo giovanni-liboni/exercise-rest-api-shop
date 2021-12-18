@@ -21,9 +21,8 @@ type login struct {
 
 type AuthMiddleware struct {
 	userRepository repositories.UserRepository
-	Middleware *jwt.GinJWTMiddleware
+	Middleware     *jwt.GinJWTMiddleware
 }
-
 
 func InitAuthMiddleware(config *config.Config, userRepository repositories.UserRepository) *AuthMiddleware {
 	var (
@@ -118,7 +117,7 @@ func InitAuthMiddleware(config *config.Config, userRepository repositories.UserR
 	}
 
 	return &AuthMiddleware{
-		Middleware: authMiddleware,
+		Middleware:     authMiddleware,
 		userRepository: userRepository,
 	}
 }

@@ -24,7 +24,6 @@ func TestOrderRepository_GetAllOrders(t *testing.T) {
 		AddRow(1, 1, "paypal", 1, 100.00, "pending", timestamp, timestamp).
 		AddRow(2, 1, "paypal", 1, 100.00, "pending", timestamp, timestamp)
 
-
 	// Expect the query to be called with the correct SQL
 	mock.ExpectQuery("CALL sp_GetOrders").WillReturnRows(rows)
 

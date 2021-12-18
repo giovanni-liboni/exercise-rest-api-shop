@@ -12,7 +12,7 @@ type Middlewares struct {
 
 func InitMiddlewares(config *config.Config, repos *Repositories) *Middlewares {
 	return &Middlewares{
-		AuthMiddleware: middlewares.InitAuthMiddleware(config, repos.UserRepository),
+		AuthMiddleware:      middlewares.InitAuthMiddleware(config, repos.UserRepository),
 		GroupAuthMiddleware: middlewares.InitGroupAuthMiddleware(repos.UserRepository),
 	}
 }

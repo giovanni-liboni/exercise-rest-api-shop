@@ -103,11 +103,11 @@ func TestItemRepository_CreateItem(t *testing.T) {
 	repo := InitItemRepository(sqlx.NewDb(db, "mysql"))
 
 	item := &entities.Item{
-		Name: "Sample item",
+		Name:        "Sample item",
 		Description: "Sample description",
-		Price: 1.0,
-		Producer: "Sample producer",
-		Category: "Sample category",
+		Price:       1.0,
+		Producer:    "Sample producer",
+		Category:    "Sample category",
 	}
 
 	err = repo.CreateItem(context.TODO(), item)
@@ -143,12 +143,12 @@ func TestItemRepository_UpdateItem(t *testing.T) {
 	repo := InitItemRepository(sqlx.NewDb(db, "mysql"))
 
 	item := &entities.Item{
-		ID: 1,
-		Name: "Sample item",
+		ID:          1,
+		Name:        "Sample item",
 		Description: "Sample description",
-		Price: 1.0,
-		Producer: "Sample producer",
-		Category: "Sample category",
+		Price:       1.0,
+		Producer:    "Sample producer",
+		Category:    "Sample category",
 	}
 
 	err = repo.UpdateItem(context.TODO(), item)

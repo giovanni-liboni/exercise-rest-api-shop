@@ -33,7 +33,7 @@ func TestGetAllItemsRoute(t *testing.T) {
 	r.GET("/items").
 		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 			assert.Equal(t, http.StatusOK, r.Code)
-		assert.Equal(t, "The Misty Cup", gjson.Get(r.Body.String(), "data.0.name").String())
+			assert.Equal(t, "The Misty Cup", gjson.Get(r.Body.String(), "data.0.name").String())
 		})
 }
 

@@ -32,15 +32,15 @@ func (i itemHandler) GetAllItems(ctx *gin.Context) *entities.AppResult {
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusInternalServerError,
-			Message:  "Internal server error",
-			Data: nil,
+			Message:    "Internal server error",
+			Data:       nil,
 		}
 	}
 	return &entities.AppResult{
-		Data: items,
-		Message: "Get all items",
+		Data:       items,
+		Message:    "Get all items",
 		StatusCode: http.StatusOK,
-		Err: nil,
+		Err:        nil,
 	}
 }
 
@@ -51,8 +51,8 @@ func (i itemHandler) GetItem(ctx *gin.Context) *entities.AppResult {
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusBadRequest,
-			Message: "Bad request",
-			Data: nil,
+			Message:    "Bad request",
+			Data:       nil,
 		}
 	}
 
@@ -60,15 +60,15 @@ func (i itemHandler) GetItem(ctx *gin.Context) *entities.AppResult {
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusInternalServerError,
-			Message:  "Internal server error",
-			Data: nil,
+			Message:    "Internal server error",
+			Data:       nil,
 		}
 	}
 	return &entities.AppResult{
-		Data: item,
-		Message: "Get item",
+		Data:       item,
+		Message:    "Get item",
 		StatusCode: http.StatusOK,
-		Err: nil,
+		Err:        nil,
 	}
 }
 
@@ -78,23 +78,23 @@ func (i itemHandler) CreateItem(ctx *gin.Context) *entities.AppResult {
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusBadRequest,
-			Message: "Bad request",
-			Data: nil,
+			Message:    "Bad request",
+			Data:       nil,
 		}
 	}
 	err = i.itemService.CreateItem(ctx, &item)
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusInternalServerError,
-			Message:  "Internal server error",
-			Data: nil,
+			Message:    "Internal server error",
+			Data:       nil,
 		}
 	}
 	return &entities.AppResult{
-		Data: nil,
-		Message: "Created item",
+		Data:       nil,
+		Message:    "Created item",
 		StatusCode: http.StatusOK,
-		Err: nil,
+		Err:        nil,
 	}
 }
 
@@ -104,23 +104,23 @@ func (i itemHandler) UpdateItem(ctx *gin.Context) *entities.AppResult {
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusBadRequest,
-			Message: "Bad request",
-			Data: nil,
+			Message:    "Bad request",
+			Data:       nil,
 		}
 	}
 	err = i.itemService.UpdateItem(ctx, &item)
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusInternalServerError,
-			Message:  "Internal server error",
-			Data: nil,
+			Message:    "Internal server error",
+			Data:       nil,
 		}
 	}
 	return &entities.AppResult{
-		Data: nil,
-		Message: "Updated item",
+		Data:       nil,
+		Message:    "Updated item",
 		StatusCode: http.StatusOK,
-		Err: nil,
+		Err:        nil,
 	}
 }
 
@@ -131,23 +131,23 @@ func (i itemHandler) DeleteItem(ctx *gin.Context) *entities.AppResult {
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusBadRequest,
-			Message: "Bad request",
-			Data: nil,
+			Message:    "Bad request",
+			Data:       nil,
 		}
 	}
 	err = i.itemService.DeleteItem(ctx, itemIdInt)
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusInternalServerError,
-			Message:  "Internal server error",
-			Data: nil,
+			Message:    "Internal server error",
+			Data:       nil,
 		}
 	}
 	return &entities.AppResult{
-		Data: nil,
-		Message: "Deleted item",
+		Data:       nil,
+		Message:    "Deleted item",
 		StatusCode: http.StatusOK,
-		Err: nil,
+		Err:        nil,
 	}
 }
 

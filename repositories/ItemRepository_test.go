@@ -192,5 +192,4 @@ func TestItemRepository_DeleteItem(t *testing.T) {
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
-
 }

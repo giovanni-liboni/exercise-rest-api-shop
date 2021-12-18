@@ -1,4 +1,5 @@
 package config
+
 import (
 	"github.com/joho/godotenv"
 	"log"
@@ -41,7 +42,7 @@ func loadFromFile(filename string) {
 	}
 }
 
-func LoadConfig(params... string) *Config {
+func LoadConfig(params ...string) *Config {
 	switch len(params) {
 	case 1:
 		loadFromFile(params[0])
@@ -83,4 +84,3 @@ func LoadConfig(params... string) *Config {
 	}
 	return config
 }
-

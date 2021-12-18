@@ -6,6 +6,5 @@ type Middlewares struct {
 }
 
 func InitMiddlewares(config *config.Config, repos *Repositories) *Middlewares {
-	return &Middlewares{
-	}
+	return &Middlewares{}
 }

@@ -1,12 +1,14 @@
 package entities
 
+import "time"
+
 type Item struct {
-	ID          int64  `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Price       int64  `json:"price"`
-	Producer   string `json:"producer"`
-	Category    string `json:"category"`
-	CreatedAt   string `json:"created_at" db:"created_at"`
-	UpdatedAt   string `json:"updated_at" db:"updated_at"`
+	ID          int     `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Price       float32   `json:"price"`
+	Producer    string    `json:"producer"`
+	Category    string    `json:"category"`
+	CreatedAt   time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }

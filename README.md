@@ -88,7 +88,7 @@ This project is for educational purposes.
 
 ### Prerequisites
 
-- Golang (>= 1.8)
+- Golang (>= 1.17)
 - MySQL (5.7)
 - Postman
 

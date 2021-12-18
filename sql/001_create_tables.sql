@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     firstname VARCHAR(50) NOT NULL,
-    surname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -17,26 +17,28 @@ CREATE TABLE IF NOT EXISTS items (
      producer VARCHAR(255) NOT NULL,
      description TEXT NOT NULL,
      price FLOAT NOT NULL,
+     category VARCHAR(255) NOT NULL,
      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS orders (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    userId INT NOT NULL,
+    user_id INT NOT NULL,
     payment_method ENUM('cash', 'card', 'paypal', 'stripe'),
+    payment_id VARCHAR(255),
     total_price FLOAT NOT NULL,
     status ENUM('pending', 'paid', 'cancelled'),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (userId) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS orders_items (
-    orderId INT NOT NULL,
-    itemId INT NOT NULL,
+    order_id INT NOT NULL,
+    item_id INT NOT NULL,
     price FLOAT NOT NULL,
-    FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (itemId) REFERENCES items(id)
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(id)
 );
 
 ALTER TABLE users AUTO_INCREMENT=0;

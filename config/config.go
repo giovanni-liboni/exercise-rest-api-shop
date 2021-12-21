@@ -2,17 +2,17 @@ package config
 
 import (
 	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 	"net/url"
 	"os"
 	"strconv"
-	log "github.com/sirupsen/logrus"
 )
 
 type Config struct {
-	Database DatabaseConfig
-	Server   ServerConfig
-	Jwt      JwtConfig
-	Timezone string
+	Database     DatabaseConfig
+	Server       ServerConfig
+	Jwt          JwtConfig
+	Timezone     string
 	StripeAPIKey string
 }
 
@@ -81,8 +81,6 @@ func parseDatabaseUrl() {
 	}
 }
 
-
-
 func LoadConfig(params ...string) *Config {
 	switch len(params) {
 	case 1:
@@ -127,7 +125,7 @@ func LoadConfig(params ...string) *Config {
 		Jwt: JwtConfig{
 			Secret: os.Getenv("JWT_SECRET"),
 		},
-		Timezone: os.Getenv("TIMEZONE"),
+		Timezone:     os.Getenv("TIMEZONE"),
 		StripeAPIKey: os.Getenv("STRIPE_API_KEY"),
 	}
 	return config

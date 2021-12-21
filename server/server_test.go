@@ -261,7 +261,7 @@ func TestGetUserOrders(t *testing.T) {
 			// Get the orders from the response
 			orders := gjson.Get(r.Body.String(), "data")
 			assert.GreaterOrEqual(t, len(orders.Array()), 3) // The user should have at least 3 orders (one is
-																 // created by the test)
+			// created by the test)
 		})
 }
 

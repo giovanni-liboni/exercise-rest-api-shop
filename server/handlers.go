@@ -3,17 +3,17 @@ package server
 import "github.com/giovanni-liboni/exercise-rest-api-shop/handlers"
 
 type Handlers struct {
-	ItemHandler handlers.ItemHandler
+	ItemHandler  handlers.ItemHandler
 	OrderHandler handlers.OrderHandler
-	UserHandler handlers.UserHandler
-	StatHandler handlers.StatHandler
+	UserHandler  handlers.UserHandler
+	StatHandler  handlers.StatHandler
 }
 
 func InitHandlers(services *Services) *Handlers {
 	return &Handlers{
-		ItemHandler: handlers.InitItemHandler(services.ItemService),
+		ItemHandler:  handlers.InitItemHandler(services.ItemService),
 		OrderHandler: handlers.InitOrderHandler(services.OrderService, services.UserService),
-		UserHandler: handlers.InitUserHandler(services.UserService, services.OrderService),
-		StatHandler: handlers.InitStatHandler(services.StatService),
+		UserHandler:  handlers.InitUserHandler(services.UserService, services.OrderService),
+		StatHandler:  handlers.InitStatHandler(services.StatService),
 	}
 }

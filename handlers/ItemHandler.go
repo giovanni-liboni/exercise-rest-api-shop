@@ -178,7 +178,7 @@ func (i itemHandler) PurchaseItem(ctx *gin.Context) *entities.AppResult {
 	// Get the user by username
 	order, err := i.itemService.PurchaseItem(ctx, itemIdInt, user.ID)
 	// If the item is not found, return a 404
-	if err  == sql.ErrNoRows {
+	if err == sql.ErrNoRows {
 		return &entities.AppResult{
 			StatusCode: http.StatusNotFound,
 			Message:    "Item not found",

@@ -8,10 +8,10 @@ import (
 )
 
 type statService struct {
-	userRepository repositories.UserRepository
+	userRepository  repositories.UserRepository
 	orderRepository repositories.OrderRepository
-	itemRepository repositories.ItemRepository
-	statRepository repositories.StatRepository
+	itemRepository  repositories.ItemRepository
+	statRepository  repositories.StatRepository
 }
 
 type StatService interface {
@@ -27,10 +27,10 @@ type StatService interface {
 
 func InitStatService(userRepository repositories.UserRepository, orderRepository repositories.OrderRepository, itemRepository repositories.ItemRepository, statRepository repositories.StatRepository) StatService {
 	return &statService{
-		userRepository: userRepository,
+		userRepository:  userRepository,
 		orderRepository: orderRepository,
-		itemRepository: itemRepository,
-		statRepository: statRepository,
+		itemRepository:  itemRepository,
+		statRepository:  statRepository,
 	}
 }
 

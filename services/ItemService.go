@@ -8,7 +8,7 @@ import (
 )
 
 type itemService struct {
-	itemRepository repositories.ItemRepository
+	itemRepository  repositories.ItemRepository
 	orderRepository repositories.OrderRepository
 }
 
@@ -23,7 +23,7 @@ type ItemService interface {
 
 func InitItemService(itemRepository repositories.ItemRepository, orderRepository repositories.OrderRepository) ItemService {
 	return &itemService{
-		itemRepository: itemRepository,
+		itemRepository:  itemRepository,
 		orderRepository: orderRepository,
 	}
 }
@@ -63,9 +63,9 @@ func (i itemService) PurchaseItem(ctx context.Context, id int64, userId int64) (
 		Items: []*entities.Item{
 			item,
 		},
-		Status:     entities.OrderStatusCreated,
-		TotalPrice: item.Price,
-		PaymentID: "",
+		Status:        entities.OrderStatusCreated,
+		TotalPrice:    item.Price,
+		PaymentID:     "",
 		PaymentMethod: "stripe",
 	}
 

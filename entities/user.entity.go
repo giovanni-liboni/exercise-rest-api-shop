@@ -3,7 +3,7 @@ package entities
 import "time"
 
 type User struct {
-	ID        int64       `json:"id" db:"id"`
+	ID        int64     `json:"id" db:"id"`
 	Username  string    `json:"username" db:"username"`
 	Password  string    `json:"-" db:"password"`
 	Firstname string    `json:"firstname" db:"firstname"`
@@ -22,5 +22,5 @@ type UserForm struct {
 
 type UserStat struct {
 	User
-	TotalSpent float64   `json:"total_spent" db:"total_spent"`
+	TotalSpent float64 `json:"total_spent" db:"total_spent"`
 }

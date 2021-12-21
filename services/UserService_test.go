@@ -37,7 +37,7 @@ func TestUserService_CreateUser(t *testing.T) {
 		Lastname:  "Doe",
 		Email:     "john.doe@gmail.com",
 		Password:  "password",
-		Username: "johndoe",
+		Username:  "johndoe",
 	}
 
 	// Create the user
@@ -63,7 +63,7 @@ func TestUserService_CreateUser_UserAlreadyExists(t *testing.T) {
 		Lastname:  "Doe",
 		Email:     "test.doe@gmail.com",
 		Password:  "password",
-		Username: "test",
+		Username:  "test",
 	}
 
 	// Create the user
@@ -71,4 +71,3 @@ func TestUserService_CreateUser_UserAlreadyExists(t *testing.T) {
 
 	assert.ErrorIs(t, err, entities.ErrUserAlreadyExists)
 }
-

@@ -6,17 +6,17 @@ import (
 )
 
 type Services struct {
-	ItemService services.ItemService
+	ItemService  services.ItemService
 	OrderService services.OrderService
-	UserService services.UserService
-	StatService services.StatService
+	UserService  services.UserService
+	StatService  services.StatService
 }
 
 func InitServices(repos *Repositories, config *config.Config) *Services {
 	return &Services{
-		ItemService: services.InitItemService(repos.ItemRepository, repos.OrderRepository),
+		ItemService:  services.InitItemService(repos.ItemRepository, repos.OrderRepository),
 		OrderService: services.InitOrderService(repos.OrderRepository, config.StripeAPIKey),
-		UserService: services.InitUserService(repos.UserRepository, repos.OrderRepository),
-		StatService: services.InitStatService(repos.UserRepository, repos.OrderRepository, repos.ItemRepository, repos.StatRepository),
+		UserService:  services.InitUserService(repos.UserRepository, repos.OrderRepository),
+		StatService:  services.InitStatService(repos.UserRepository, repos.OrderRepository, repos.ItemRepository, repos.StatRepository),
 	}
 }

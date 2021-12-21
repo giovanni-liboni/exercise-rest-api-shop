@@ -10,7 +10,7 @@ import (
 )
 
 type userHandler struct {
-	userService services.UserService
+	userService  services.UserService
 	orderService services.OrderService
 }
 
@@ -22,7 +22,7 @@ type UserHandler interface {
 
 func InitUserHandler(userService services.UserService, orderService services.OrderService) UserHandler {
 	return &userHandler{
-		userService: userService,
+		userService:  userService,
 		orderService: orderService,
 	}
 }
@@ -109,11 +109,11 @@ func (u userHandler) CreateUser(ctx *gin.Context) *entities.AppResult {
 	}
 
 	user := entities.User{
-		Email: userForm.Email,
-		Password: userForm.PasswordForm,
-		Username: userForm.Username,
+		Email:     userForm.Email,
+		Password:  userForm.PasswordForm,
+		Username:  userForm.Username,
 		Firstname: userForm.Firstname,
-		Lastname: userForm.Lastname,
+		Lastname:  userForm.Lastname,
 	}
 
 	// Create the user

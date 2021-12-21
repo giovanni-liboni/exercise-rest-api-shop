@@ -72,12 +72,12 @@ func (s statHandler) GetPublicStatistics(ctx *gin.Context) *entities.AppResult {
 	return &entities.AppResult{
 		StatusCode: http.StatusOK,
 		Message:    "Statistics retrieved",
-		Data:       gin.H{
-			"last_month": statistics[0],
-			"last_week": statistics[1],
-			"last_day": statistics[2],
-			"total_items": totalItems,
-			"total_users": totalUsers,
+		Data: gin.H{
+			"last_month":   statistics[0],
+			"last_week":    statistics[1],
+			"last_day":     statistics[2],
+			"total_items":  totalItems,
+			"total_users":  totalUsers,
 			"total_orders": totalOrders,
 		},
 	}
@@ -176,17 +176,17 @@ func (s statHandler) GetAdminStatistics(ctx *gin.Context) *entities.AppResult {
 	return &entities.AppResult{
 		StatusCode: http.StatusOK,
 		Message:    "Statistics retrieved",
-		Data:       gin.H{
-			"last_month": statistics[0],
-			"last_week": statistics[1],
-			"last_day": statistics[2],
-			"total_items": totalItems,
-			"total_users": totalUsers,
-			"total_orders": totalOrders,
-			"users_spend_more": users,
-			"most_ordered_items": items,
+		Data: gin.H{
+			"last_month":          statistics[0],
+			"last_week":           statistics[1],
+			"last_day":            statistics[2],
+			"total_items":         totalItems,
+			"total_users":         totalUsers,
+			"total_orders":        totalOrders,
+			"users_spend_more":    users,
+			"most_ordered_items":  items,
 			"least_ordered_items": leastItems,
-			"items_not_ordered": itemsNotOrdered,
+			"items_not_ordered":   itemsNotOrdered,
 		},
 	}
 }

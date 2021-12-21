@@ -56,11 +56,11 @@ func TestOrderService_PayOrder(t *testing.T) {
 
 	// Create the associated user
 	user := entities.User{
-		ID: int64(1),
-		Email: "test@test.com",
+		ID:        int64(1),
+		Email:     "test@test.com",
 		Firstname: "Test",
-		Lastname: "User",
-		Password: "test",
+		Lastname:  "User",
+		Password:  "test",
 	}
 
 	// Pay the order

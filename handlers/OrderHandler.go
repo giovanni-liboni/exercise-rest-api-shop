@@ -11,7 +11,7 @@ import (
 
 type orderHandler struct {
 	orderService services.OrderService
-	userService services.UserService
+	userService  services.UserService
 }
 
 type OrderHandler interface {
@@ -23,7 +23,7 @@ type OrderHandler interface {
 func InitOrderHandler(orderService services.OrderService, userService services.UserService) OrderHandler {
 	return &orderHandler{
 		orderService: orderService,
-		userService: userService,
+		userService:  userService,
 	}
 }
 

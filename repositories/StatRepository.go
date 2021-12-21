@@ -30,58 +30,58 @@ func InitStatRepository(db *sqlx.DB) StatRepository {
 func (s statRepository) GetStatsLastMonth(ctx context.Context) (entities.Stat, error) {
 	var stat entities.Stat
 	err := s.db.GetContext(ctx, &stat, "CALL sp_GetStatLastMonth()")
-	return  stat, err
+	return stat, err
 }
 
 func (s statRepository) GetStatsLastWeek(ctx context.Context) (entities.Stat, error) {
 	var stat entities.Stat
 	err := s.db.GetContext(ctx, &stat, "CALL sp_GetStatLastWeek()")
-	return  stat, err
+	return stat, err
 }
 
 func (s statRepository) GetStatsLastDay(ctx context.Context) (entities.Stat, error) {
 	var stat entities.Stat
 	err := s.db.GetContext(ctx, &stat, "CALL sp_GetStatLastDay()")
-	return  stat, err
+	return stat, err
 }
 func (s statRepository) GetUsersWhoSpentMore(ctx context.Context) ([]entities.UserStat, error) {
 	var users []entities.UserStat
 	err := s.db.SelectContext(ctx, &users, "CALL sp_GetUsersWhoSpentMore()")
-	return  users, err
+	return users, err
 }
 
 func (s statRepository) GetMostOrderedItems(ctx context.Context) ([]entities.ItemStat, error) {
 	var items []entities.ItemStat
 	err := s.db.SelectContext(ctx, &items, "CALL sp_GetMostOrderedItems()")
-	return  items, err
+	return items, err
 }
 
 func (s statRepository) GetLeastOrderedItems(ctx context.Context) ([]entities.ItemStat, error) {
 	var items []entities.ItemStat
 	err := s.db.SelectContext(ctx, &items, "CALL sp_GetLeastOrderedItems()")
-	return  items, err
+	return items, err
 }
 
 func (s statRepository) GetItemsNotOrdered(ctx context.Context) ([]entities.ItemStat, error) {
 	var items []entities.ItemStat
 	err := s.db.SelectContext(ctx, &items, "CALL sp_GetItemsNotOrdered()")
-	return  items, err
+	return items, err
 }
 
 func (s statRepository) GetTotalNumberOfItems(ctx context.Context) (int, error) {
 	var total int
 	err := s.db.GetContext(ctx, &total, "CALL sp_GetTotalNumberOfItems()")
-	return  total, err
+	return total, err
 }
 
 func (s statRepository) GetTotalNumberOfUsers(ctx context.Context) (int, error) {
 	var total int
 	err := s.db.GetContext(ctx, &total, "CALL sp_GetTotalNumberOfUsers()")
-	return  total, err
+	return total, err
 }
 
 func (s statRepository) GetTotalNumberOfOrders(ctx context.Context) (int, error) {
 	var total int
 	err := s.db.GetContext(ctx, &total, "CALL sp_GetTotalNumberOfOrders()")
-	return  total, err
+	return total, err
 }

@@ -10,7 +10,7 @@ import (
 
 type orderService struct {
 	orderRepository repositories.OrderRepository
-	stripeAPIKey   string
+	stripeAPIKey    string
 }
 
 type OrderService interface {

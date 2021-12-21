@@ -9,7 +9,7 @@ import (
 )
 
 type userService struct {
-	userRepository repositories.UserRepository
+	userRepository  repositories.UserRepository
 	orderRepository repositories.OrderRepository
 }
 
@@ -20,7 +20,7 @@ type UserService interface {
 
 func InitUserService(userRepository repositories.UserRepository, orderRepository repositories.OrderRepository) UserService {
 	return &userService{
-		userRepository: userRepository,
+		userRepository:  userRepository,
 		orderRepository: orderRepository,
 	}
 }

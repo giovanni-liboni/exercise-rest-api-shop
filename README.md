@@ -108,10 +108,15 @@ On the server, you can deploy the application using the following command:
 2. Set the environment variables
 
     ```bash
+    # Set the following environment variables only if DATABASE_URL is not set
     dokku config:set <app-name> DB_HOST=<db-host> DB_PORT=<db-port> DB_USER=<db-user> DB_PASSWORD=<db-password> DB_NAME=<db-name>
+    # Set the JWT_SECRET environment variable (e.g. eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9)
     dokku config:set <app-name> JWT_SECRET=<jwt-secret>
+    # Set the TIMEZONE environment variable (e.g. Paris/Europe)
     dokku config:set <app-name> TIMEZONE=<timezone>
+    # Set the PORT environment variable (e.g. 8080)
     dokku config:set <app-name> PORT=<port>
+    # Set the STRIPE_SECRET_KEY environment variable (e.g. sk_test_...)
     dokku config:set <app-name> STRIPE_API_KEY=<stripe-api-key>
    ```
    
@@ -134,14 +139,20 @@ On the server, you can deploy the application using the following command:
     dokku mysql:link <app-name> <app-name-db>
     ```
    
+6. Select the Dockerfile as a builder
+   
+    ```bash
+    dokku builder:set <app-name> selected dockerfile
+    ```
+   
 On the development machine, you can run the following commands to deploy the application:
 
-6. Setup the remote repository 
+7. Setup the remote repository 
 
     ```bash
     git remote add dokku dokku@<dokku-host>:<app-name>
     ```
-7. Deploy the app
+8. Deploy the app
 
     ```bash
     git push dokku master

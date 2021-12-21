@@ -58,31 +58,32 @@ The shopping website backend implements these features:
 - [X] Show details for a purchased item (logged-in user)
 - [X] Register a new user
 - [X] Login and logout for users/admin
-- [ ] Public dashboard with public statistics
-- [ ] Dashboard with statistics about purchased items (admin only)
+- [X] Public dashboard with public statistics
+- [X] Dashboard with statistics about purchased items (admin only)
 
 This project is for educational purposes.
 
 ### REST API endpoints
 
-|              Path              | Method |          Required JSON         |             Header            |                       Description                      |
-|:------------------------------:|:------:|:------------------------------:|:-----------------------------:|:------------------------------------------------------:|
-| /dashboard                     |   GET  |                                |                               | Overall statistics for the landing page                |
-| /items                         |   GET  |                                |                               | Show all available items                               |
-| /items/:id                     |   GET  |                                |                               | Show the details for an item                           |
-| /items                         |  POST  | name,price,details,producer    | Authorization: Bearer <token> | Add an item to the shop store (admin only)             |
-| /items/:id                     |   PUT  | name,price,details,producer    | Authorization: Bearer <token> | Update the details for the specified item (admin only) |
-| /items/:id                     | DELETE |                                | Authorization: Bearer <token> | Delete an item from the shop store (admin only)        |
-| /items/:id/purchase            | POST   |                                | Authorization: Bearer <token> | Purchase the item for the logged-in user               |
-| /users/me/orders               | GET    |                                | Authorization: Bearer <token> | Show all the orders for the logged-in user             |
-| /users/me/orders/:id/items     | GET    |                                | Authorization: Bearer <token> | Show the details for the specified order               |
-| /users/me/orders/:id/items/:id | GET    |                                | Authorization: Bearer <token> | Show the details for the specifed item in the order    |
-| /auth/login                    |  POST  |        username,password       |                               | The username and password you want to login with       |
-| /auth/logout                   |  POST  |                                |                               | Logout the current user                                |
-| /auth/refresh                  |  POST  |                                |                               | Refresh the JWT token                                  |
-| /auth/register                 |  POST  | username,password,name,surname | Authorization: Bearer <token> | Register a new user                                    |
-| /orders/statistics             | GET    |                                | Authorization: Bearer <token> | Admin-only dashboard                                   |
-
+|              Path              | Method |             Required JSON             |             Header            |                       Description                      |
+|:------------------------------:|:------:|:-------------------------------------:|:-----------------------------:|:------------------------------------------------------:|
+| /statistics                    |   GET  |                                       |                               | Overall statistics for the landing page                |
+| /items                         |   GET  |                                       |                               | Show all available items                               |
+| /items/:id                     |   GET  |                                       |                               | Show the details for an item                           |
+| /items                         |  POST  |      name,price,details,producer      | Authorization: Bearer <token> | Add an item to the shop store (admin only)             |
+| /items/:id                     |   PUT  |      name,price,details,producer      | Authorization: Bearer <token> | Update the details for the specified item (admin only) |
+| /items/:id                     | DELETE |                                       | Authorization: Bearer <token> | Delete an item from the shop store (admin only)        |
+| /items/:id/purchase            |  POST  |                                       | Authorization: Bearer <token> | Purchase the item for the logged-in user               |
+| /users/me/orders               |   GET  |                                       | Authorization: Bearer <token> | Show all the orders for the logged-in user             |
+| /users/me/orders/:id/items     |   GET  |                                       | Authorization: Bearer <token> | Show the details for the specified order               |
+| /auth/login                    |  POST  |           username,password           |                               | The username and password you want to login with       |
+| /auth/logout                   |  POST  |                                       |                               | Logout the current user                                |
+| /auth/refresh                  |  POST  |                                       |                               | Refresh the JWT token                                  |
+| /auth/register                 |  POST  | username,password, firstname,lastname | Authorization: Bearer <token> | Register a new user                                    |
+| /orders                        |   GET  |                                       | Authorization: Bearer <token> | Get all the orders                                     |
+| /orders/:id                    |   GET  |                                       | Authorization: Bearer <token> | Get the specified order                                |
+| /orders/:id/pay                |  POST  |                                       | Authorization: Bearer <token> | Pay for the order                                      |
+| /admin/statistics              |   GET  |                                       | Authorization: Bearer <token> | Admin-only dashboard                                   |
 <!-- GETTING STARTED -->
 ## Getting Started
 

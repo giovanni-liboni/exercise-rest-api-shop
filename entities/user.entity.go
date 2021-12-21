@@ -14,3 +14,13 @@ type User struct {
 	Role      string    `json:"role" db:"role"`
 	Orders    []Order   `json:"orders"`
 }
+
+type UserForm struct {
+	User
+	PasswordForm string `json:"password"`
+}
+
+type UserStat struct {
+	User
+	TotalSpent float64   `json:"total_spent" db:"total_spent"`
+}

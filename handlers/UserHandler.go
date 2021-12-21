@@ -97,8 +97,8 @@ func (u userHandler) GetUserOrderItems(ctx *gin.Context) *entities.AppResult {
 
 func (u userHandler) CreateUser(ctx *gin.Context) *entities.AppResult {
 	// Sanitize the request body
-	var user entities.User
-	err := ctx.BindJSON(&user)
+	var userForm entities.UserForm
+	err := ctx.BindJSON(&userForm)
 	if err != nil {
 		log.Errorf("Error binding JSON: %v", err)
 		return &entities.AppResult{
@@ -106,6 +106,14 @@ func (u userHandler) CreateUser(ctx *gin.Context) *entities.AppResult {
 			Message:    "Bad request",
 			Data:       nil,
 		}
+	}
+
+	user := entities.User{
+		Email: userForm.Email,
+		Password: userForm.PasswordForm,
+		Username: userForm.Username,
+		Firstname: userForm.Firstname,
+		Lastname: userForm.Lastname,
 	}
 
 	// Create the user

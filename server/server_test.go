@@ -9,20 +9,6 @@ import (
 	"testing"
 )
 
-func TestPublicDashboardRoute(t *testing.T) {
-	globalConfig := config.LoadConfig("../.test.env")
-	// Initialize the router
-	router := SetupRouter(globalConfig)
-
-	r := gofight.New()
-
-	r.GET("/dashboard").
-		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
-			assert.Equal(t, http.StatusOK, r.Code)
-		})
-
-}
-
 func TestGetAllItemsRoute(t *testing.T) {
 	globalConfig := config.LoadConfig("../.test.env")
 	// Initialize the router
@@ -86,7 +72,7 @@ func TestOrderStatisticsRoute_UserGroup(t *testing.T) {
 			tokenRes := gjson.Get(r.Body.String(), "token")
 			token = tokenRes.String()
 		})
-	r.GET("/orders/statistics").
+	r.GET("/admin/statistics").
 		SetHeader(gofight.H{
 			"Authorization": "Bearer " + token,
 		}).
@@ -113,7 +99,7 @@ func TestOrderStatisticsRoute_AdminGroup(t *testing.T) {
 			tokenRes := gjson.Get(r.Body.String(), "token")
 			token = tokenRes.String()
 		})
-	r.GET("/orders/statistics").
+	r.GET("/admin/statistics").
 		SetHeader(gofight.H{
 			"Authorization": "Bearer " + token,
 		}).
@@ -355,6 +341,9 @@ func TestCreateUser_UserAlreadyExists(t *testing.T) {
 		SetJSON(gofight.D{
 			"username": "test",
 			"password": "test",
+			"email":    "test@test.com",
+			"name":     "test",
+			"surname":  "test",
 		}).
 		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 			assert.Equal(t, http.StatusConflict, r.Code)

@@ -41,7 +41,7 @@ func TestOrderService_GetOrder(t *testing.T) {
 	}
 
 	// Asserts
-	assert.Equal(t, 1, order.ID)
+	assert.Equal(t, int64(1), order.ID)
 }
 
 func TestOrderService_PayOrder(t *testing.T) {
@@ -56,7 +56,7 @@ func TestOrderService_PayOrder(t *testing.T) {
 
 	// Create the associated user
 	user := entities.User{
-		ID: 1,
+		ID: int64(1),
 		Email: "test@test.com",
 		Firstname: "Test",
 		Lastname: "User",
@@ -70,7 +70,7 @@ func TestOrderService_PayOrder(t *testing.T) {
 	}
 
 	// Asserts
-	assert.Equal(t, 1, order.ID)
+	assert.Equal(t, int64(1), order.ID)
 	assert.Equal(t, "paid", order.Status)
 }
 
@@ -92,7 +92,7 @@ func TestOrderService_GetOrders(t *testing.T) {
 	}
 
 	// Asserts
-	assert.Equal(t, 1, len(orders))
+	assert.GreaterOrEqual(t, len(orders), 8)
 }
 
 func TestOrderService_GetOrdersByUser(t *testing.T) {

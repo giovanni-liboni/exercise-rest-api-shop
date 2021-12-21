@@ -77,7 +77,7 @@ func TestItemRepository_GetItem(t *testing.T) {
 	}
 
 	// Check if the returned item has the correct values
-	assert.Equal(t, 1, item.ID)
+	assert.Equal(t, int64(1), item.ID)
 	assert.Equal(t, "Item 1", item.Name)
 	assert.Equal(t, "Description 1", item.Description)
 	assert.Equal(t, float32(1.0), item.Price)
@@ -160,7 +160,7 @@ func TestItemRepository_UpdateItem(t *testing.T) {
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
-	assert.Equal(t, 1, item.ID)
+	assert.Equal(t, int64(1), item.ID)
 	assert.Equal(t, "Sample item", item.Name)
 	assert.Equal(t, "Sample description", item.Description)
 	assert.Equal(t, float32(1.0), item.Price)

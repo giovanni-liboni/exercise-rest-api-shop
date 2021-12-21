@@ -81,7 +81,7 @@ func TestUserRepository_GetUserByID(t *testing.T) {
 
 	// Check assertions
 	assert.NotEmpty(t, item)
-	assert.Equal(t, 1, item.ID)
+	assert.Equal(t, int64(1), item.ID)
 	assert.Equal(t, "John", item.Firstname)
 	assert.Equal(t, "Doe", item.Lastname)
 	assert.Equal(t, "johndoe", item.Username)
@@ -121,7 +121,7 @@ func TestUserRepository_GetUserByUsername(t *testing.T) {
 
 	// Check assertions
 	assert.NotEmpty(t, item)
-	assert.Equal(t, 1, item.ID)
+	assert.Equal(t, int64(1), item.ID)
 	assert.Equal(t, "John", item.Firstname)
 	assert.Equal(t, "Doe", item.Lastname)
 	assert.Equal(t, "johndoe", item.Username)
@@ -191,7 +191,7 @@ func TestUserRepository_CreateUser_Found(t *testing.T) {
 
 	userRepository := InitUserRepository(sqlx.NewDb(db, "mysql"))
 	err = userRepository.CreateUser(context.TODO(), user)
-	if err != nil {
+	if err != entities.ErrUserAlreadyExists {
 		t.Errorf("error was not expected while creating user: %s", err)
 	}
 
@@ -199,6 +199,7 @@ func TestUserRepository_CreateUser_Found(t *testing.T) {
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
+	assert.ErrorIs(t, entities.ErrUserAlreadyExists, err)
 }
 
 func TestUserRepository_UpdateUser(t *testing.T) {

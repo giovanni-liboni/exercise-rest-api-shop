@@ -75,8 +75,8 @@ func TestOrderRepository_GetOrder(t *testing.T) {
 
 	// Assert that the returned order is not empty
 	assert.NotEmpty(t, order)
-	assert.Equal(t, 1, order.ID)
-	assert.Equal(t, 1, order.UserID)
+	assert.Equal(t, int64(1), order.ID)
+	assert.Equal(t, int64(1), order.UserID)
 	assert.Equal(t, "stripe", order.PaymentMethod)
 	assert.Equal(t, "123456789", order.PaymentID)
 }

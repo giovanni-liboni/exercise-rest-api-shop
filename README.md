@@ -89,9 +89,63 @@ This project is for educational purposes.
 
 ### Prerequisites
 
-- Golang (>= 1.17)
+- Golang (>= 1.17) 
 - MySQL (5.7)
-- Postman
+- Postman - https://www.getpostman.com/
+- Stripe API Key - https://dashboard.stripe.com/account/apikeys
+- Dokku on a server - https://dokku.viewdocs.io/dokku/getting-started/installation
+
+### Deployment on Dokku
+
+On the server, you can deploy the application using the following command:
+
+1. Create a new app on Dokku
+
+    ```bash
+    dokku apps:create <app-name>
+    ```
+   
+2. Set the environment variables
+
+    ```bash
+    dokku config:set <app-name> DB_HOST=<db-host> DB_PORT=<db-port> DB_USER=<db-user> DB_PASSWORD=<db-password> DB_NAME=<db-name>
+    dokku config:set <app-name> JWT_SECRET=<jwt-secret>
+    dokku config:set <app-name> TIMEZONE=<timezone>
+    dokku config:set <app-name> PORT=<port>
+    dokku config:set <app-name> STRIPE_API_KEY=<stripe-api-key>
+   ```
+   
+3. Install the MySQL plugin
+    
+    ```bash
+    sudo dokku plugin:install https://github.com/dokku/dokku-mysql.git mysql
+    ```
+    
+4. Create the database. In this case, we use MySQL version 5.7.
+
+    ```bash
+    export MYSQL_IMAGE_VERSION=5.7
+    dokku mysql:create <app-name-db>
+    ```
+   
+5. Link the database container to the app
+
+    ```bash
+    dokku mysql:link <app-name> <app-name-db>
+    ```
+   
+On the development machine, you can run the following commands to deploy the application:
+
+6. Setup the remote repository 
+
+    ```bash
+    git remote add dokku dokku@<dokku-host>:<app-name>
+    ```
+7. Deploy the app
+
+    ```bash
+    git push dokku master
+    ```
 
 <!-- CONTRIBUTING -->
 ## Contributing

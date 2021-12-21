@@ -2,9 +2,10 @@ package config
 
 import (
 	"github.com/joho/godotenv"
-	"log"
+	"net/url"
 	"os"
 	"strconv"
+	log "github.com/sirupsen/logrus"
 )
 
 type Config struct {
@@ -43,6 +44,45 @@ func loadFromFile(filename string) {
 	}
 }
 
+// mysql://mysql:a321141c10fe3bba@dokku-mysql-exercise-rest-api-shop-db:3306/exercise_rest_api_shop_db
+// Set env variables DB_HOST from the DATABASE_URL environment variable
+
+func parseDatabaseUrl() {
+	databaseUrl := os.Getenv("DATABASE_URL")
+	if databaseUrl == "" {
+		return
+	}
+	u, _ := url.Parse(databaseUrl)
+
+	err := os.Setenv("DB_HOST", u.Host)
+	if err != nil {
+		log.Errorln("Error setting DB_HOST", err)
+	}
+	err = os.Setenv("DB_PORT", u.Port())
+	if err != nil {
+		log.Errorln("Error setting DB_PORT", err)
+	}
+
+	err = os.Setenv("DB_USER", u.User.Username())
+	if err != nil {
+		log.Errorln("Error setting DB_USER", err)
+	}
+
+	if pass, ok := u.User.Password(); ok {
+		err = os.Setenv("DB_PASSWORD", pass)
+		if err != nil {
+			log.Errorln("Error setting DB_PASSWORD", err)
+		}
+	}
+
+	err = os.Setenv("DB_NAME", u.Path[1:])
+	if err != nil {
+		log.Errorln("Error setting DB_NAME", err)
+	}
+}
+
+
+
 func LoadConfig(params ...string) *Config {
 	switch len(params) {
 	case 1:
@@ -65,6 +105,12 @@ func LoadConfig(params ...string) *Config {
 	portDbInt, err := strconv.Atoi(portDb)
 	if err != nil {
 		log.Fatal("Error converting database port to int", err)
+	}
+
+	// Set env variables for the database if any host is set. It will load the database url
+	// from the DATABASE_URL environment variable
+	if os.Getenv("DB_HOST") == "" {
+		parseDatabaseUrl()
 	}
 
 	config := &Config{

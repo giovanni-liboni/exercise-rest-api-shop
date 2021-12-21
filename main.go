@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	globalConfig := config.LoadConfig()
+	globalConfig := config.LoadConfig(".env")
 
 	s := server.SetupRouter(globalConfig)
 	s.Run(":" + strconv.Itoa(globalConfig.Server.Port))

@@ -12,7 +12,7 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS sp_CreateItem;
-CREATE PROCEDURE sp_CreateItem(IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category bigint)
+CREATE PROCEDURE sp_CreateItem(IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category varchar(255))
 BEGIN
     insert into items (name, producer, description, price, category) values (name, producer, description, price, category);
 END;

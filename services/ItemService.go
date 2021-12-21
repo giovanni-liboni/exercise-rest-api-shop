@@ -64,7 +64,7 @@ func (i itemService) PurchaseItem(ctx context.Context, id int64, userId int64) (
 			item,
 		},
 		Status:        entities.OrderStatusCreated,
-		TotalPrice:    item.Price,
+		TotalPrice:    float32(item.Price),
 		PaymentID:     "",
 		PaymentMethod: "stripe",
 	}

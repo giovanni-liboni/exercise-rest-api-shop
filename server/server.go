@@ -85,8 +85,8 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 
 	// Admin routes
 	router.GET("/admin/statistics", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"), serveHTTP(hds.StatHandler.GetAdminStatistics))
-	router.POST("/items", serveHTTP(hds.ItemHandler.CreateItem), mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"))
-	router.PUT("/items/:id", serveHTTP(hds.ItemHandler.UpdateItem), mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"))
-	router.DELETE("/items/:id", serveHTTP(hds.ItemHandler.DeleteItem), mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"))
+	router.POST("/items", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"), serveHTTP(hds.ItemHandler.CreateItem))
+	router.PUT("/items/:id", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"), serveHTTP(hds.ItemHandler.UpdateItem))
+	router.DELETE("/items/:id", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"), serveHTTP(hds.ItemHandler.DeleteItem))
 
 }

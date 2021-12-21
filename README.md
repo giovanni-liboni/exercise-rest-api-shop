@@ -158,6 +158,189 @@ On the development machine, you can run the following commands to deploy the app
     git push dokku master
     ```
 
+### Using the API
+
+- The API is accessible on the development machine (e.g. http://localhost:8080)
+- The API is accessible on the server machine (e.g. http://<dokku-host>:8080)
+- The client application used is `httpie` (https://httpie.org/)
+
+#### Get statistics available to the public
+
+ ```bash
+ http GET http://localhost:8080/statistics
+ ```
+
+Output:
+```azure
+HTTP/1.1 200 OK
+Content-Length: 342
+Content-Type: application/json; charset=utf-8
+Date: Tue, 21 Dec 2021 22:34:32 GMT
+
+{
+    "data": {
+        "last_day": {
+            "totalAmount": 1708.480016708374,
+            "totalOrders": 10,
+            "totalUsers": 7
+        },
+        "last_month": {
+            "totalAmount": 1708.480016708374,
+            "totalOrders": 10,
+            "totalUsers": 7
+        },
+        "last_week": {
+            "totalAmount": 1708.480016708374,
+            "totalOrders": 10,
+            "totalUsers": 7
+        },
+        "total_items": 5,
+        "total_orders": 10,
+        "total_users": 7
+    },
+    "message": "Statistics retrieved",
+    "success": true
+}
+```
+
+#### Get all available items
+
+ ```bash
+ http GET http://localhost:8080/items
+ ```
+
+Output:
+
+```azure
+HTTP/1.1 200 OK
+Content-Length: 1254
+Content-Type: application/json; charset=utf-8
+Date: Tue, 21 Dec 2021 22:36:27 GMT
+
+{
+    "data": [
+        {
+            "category": "garden",
+            "created_at": "2021-12-21T15:52:22Z",
+            "description": "Et sunt culpa unde distinctio quos.",
+            "id": 1,
+            "name": "The Misty Cup",
+            "price": 244.3,
+            "producer": "Beier Ltd",
+            "updated_at": "2021-12-21T15:52:22Z"
+        },
+        {
+            "category": "home",
+            "created_at": "2021-12-21T15:52:22Z",
+            "description": "Quos vel ut esse incidunt minima minima quae.",
+            "id": 2,
+            "name": "The Begging Jug",
+            "price": 302.1,
+            "producer": "Parker, Hyatt and Kris",
+            "updated_at": "2021-12-21T15:52:22Z"
+        },
+        {
+            "category": "electronic",
+            "created_at": "2021-12-21T15:52:22Z",
+            "description": "Earum aliquid deleniti beatae quibusdam inventore itaque velit voluptas.",
+            "id": 3,
+            "name": "The Expensive Flower",
+            "price": 110.13,
+            "producer": "Kutch Ltd",
+            "updated_at": "2021-12-21T15:52:22Z"
+        },
+        {
+            "category": "garden",
+            "created_at": "2021-12-21T15:52:22Z",
+            "description": "Quae quis laborum odio provident.",
+            "id": 4,
+            "name": "The Challenging Stove Salon",
+            "price": 13.2,
+            "producer": "Wisozk-Larson",
+            "updated_at": "2021-12-21T15:52:22Z"
+        },
+        {
+            "category": "home",
+            "created_at": "2021-12-21T15:52:22Z",
+            "description": "Enim provident velit blanditiis ut exercitationem.",
+            "id": 5,
+            "name": "The Performing Window Boutique",
+            "price": 213.41,
+            "producer": "Dickinson, Collins and Cremin",
+            "updated_at": "2021-12-21T15:52:22Z"
+        }
+    ],
+    "message": "Get all items",
+    "success": true
+}
+```
+
+#### Get details of an item
+
+ ```bash
+ http GET http://localhost:8080/items/1
+ ```
+
+Output:
+
+```azure
+HTTP/1.1 200 OK
+Content-Length: 257
+Content-Type: application/json; charset=utf-8
+Date: Tue, 21 Dec 2021 22:37:57 GMT
+
+{
+   "data": {
+      "category": "garden",
+      "created_at": "2021-12-21T15:52:22Z",
+      "description": "Et sunt culpa unde distinctio quos.",
+      "id": 1,
+      "name": "The Misty Cup",
+      "price": 244.3,
+      "producer": "Beier Ltd",
+      "updated_at": "2021-12-21T15:52:22Z"
+    },
+   "message": "Get item",
+   "success": true
+}
+
+```
+
+#### Create an item
+
+```bash
+http POST http://localhost:8080/items name="The Misty Cup" price="244.3" producer="Belkin" category="garden" description="Et sunt culpa unde distinctio quos."
+```
+
+Output:
+
+ ```azure
+HTTP/1.1 201 Created
+Content-Length: 53
+Content-Type: application/json; charset=utf-8
+Date: Tue, 21 Dec 2021 23:01:28 GMT
+
+{
+    "data": null,
+    "message": "Created item",
+    "success": true
+}
+```
+
+#### Purchase an item
+
+1. Purchase an item and create a new order.
+
+ ```bash
+http POST http://localhost:8080/items/1/purchase
+```
+
+2. Pay the order
+
+```bash
+http POST http://localhost:8080/orders/1/pay
+```
+
 <!-- CONTRIBUTING -->
 ## Contributing
 

@@ -47,7 +47,7 @@ END;
 DROP PROCEDURE IF EXISTS sp_GetUserByUsername;
 CREATE PROCEDURE sp_GetUserByUsername(IN _username varchar(255))
 BEGIN
-    select * from users where userName=_username;
+    select * from users where username=_username;
 END;
 
 DROP PROCEDURE IF EXISTS sp_CreateUser;

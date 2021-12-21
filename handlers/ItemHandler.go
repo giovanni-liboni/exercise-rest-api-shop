@@ -99,7 +99,7 @@ func (i itemHandler) CreateItem(ctx *gin.Context) *entities.AppResult {
 	return &entities.AppResult{
 		Data:       nil,
 		Message:    "Created item",
-		StatusCode: http.StatusOK,
+		StatusCode: http.StatusCreated,
 		Err:        nil,
 	}
 }
@@ -198,7 +198,7 @@ func (i itemHandler) PurchaseItem(ctx *gin.Context) *entities.AppResult {
 	return &entities.AppResult{
 		Data:       order,
 		Message:    "Purchased item: order created",
-		StatusCode: http.StatusOK,
+		StatusCode: http.StatusCreated,
 		Err:        nil,
 	}
 }

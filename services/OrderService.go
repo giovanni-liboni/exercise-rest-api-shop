@@ -16,6 +16,7 @@ type orderService struct {
 type OrderService interface {
 	GetOrder(ctx context.Context, id int64) (*entities.Order, error)
 	GetOrders(ctx context.Context) ([]*entities.Order, error)
+	GetOrdersByUser(ctx context.Context, userID int64) ([]*entities.Order, error)
 	CreateOrder(ctx context.Context, order *entities.Order) (*entities.Order, error)
 	UpdateOrder(ctx context.Context, order *entities.Order) (*entities.Order, error)
 	PayOrder(ctx context.Context, id int64, user *entities.User) (*entities.Order, error)
@@ -46,6 +47,24 @@ func (o orderService) GetOrder(ctx context.Context, id int64) (*entities.Order, 
 func (o orderService) GetOrders(ctx context.Context) ([]*entities.Order, error) {
 	// Retrieve orders
 	orders, err := o.orderRepository.GetAllOrders(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Retrieve order items
+	for _, order := range orders {
+		order.Items, err = o.orderRepository.GetOrderItems(ctx, order.ID)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return orders, nil
+}
+
+func (o orderService) GetOrdersByUser(ctx context.Context, userID int64) ([]*entities.Order, error) {
+	// Retrieve orders
+	orders, err := o.orderRepository.GetOrdersByUserID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}

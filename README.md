@@ -53,11 +53,11 @@
 The shopping website backend implements these features:
 
 - [X] Show all available items
-- [ ] Purchase a single item (logged-in user)
-- [ ] Show purchased items (logged-in user)
-- [ ] Show details for a purchased item (logged-in user)
-- [ ] Register a new user
-- [ ] Login and logout for users/admin
+- [X] Purchase a single item (logged-in user)
+- [X] Show purchased items (logged-in user)
+- [X] Show details for a purchased item (logged-in user)
+- [X] Register a new user
+- [X] Login and logout for users/admin
 - [ ] Public dashboard with public statistics
 - [ ] Dashboard with statistics about purchased items (admin only)
 

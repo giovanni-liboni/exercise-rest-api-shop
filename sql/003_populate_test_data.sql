@@ -16,6 +16,9 @@ INSERT INTO orders(user_id, payment_method, total_price, status, payment_id) VAL
                                                                           (2,'stripe', 302.10,'paid', '4324234234'),
                                                                           (3,'card', 110.13,'created', '432423423423'),
                                                                           (2,'paypal', 13.20,'paid', '532525454545'),
-                                                                          (1,'card', 213.41,'created', '232342342324234');
+                                                                          (1,'card', 213.41,'created', '232342342324234'),
+                                                                        (6,'card', 110.13,'created', '432423423423'),
+                                                                        (6,'paypal', 13.20,'paid', '532525454545'),
+                                                                        (6,'card', 213.41,'created', '232342342324234');
 
-INSERT  INTO orders_items(order_id, item_id, price) VALUES (1, 1, 244.30), (1, 2, 302.10), (1, 3, 110.13), (2, 4, 13.20), (2, 5, 213.41);
+INSERT  INTO orders_items(order_id, item_id, price) VALUES (1, 1, 244.30), (1, 2, 302.10), (1, 3, 110.13), (2, 4, 13.20), (2, 5, 213.41), (6, 1, 244.30), (3, 2, 302.10), (4, 3, 110.13), (5, 4, 13.20), (5, 5, 213.41);

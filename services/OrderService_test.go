@@ -94,3 +94,24 @@ func TestOrderService_GetOrders(t *testing.T) {
 	// Asserts
 	assert.Equal(t, 1, len(orders))
 }
+
+func TestOrderService_GetOrdersByUser(t *testing.T) {
+	db, err := sql.Open("mysql_txdb", "testDataSource")
+	if err != nil {
+		t.Fatalf("mysql: failed to open a mysql connection, have you run 'make test'? err: %s", err)
+	}
+	defer db.Close()
+
+	// Create a new order service
+	orderService := initOrderService(db)
+
+	// Get the orders
+	orders, err := orderService.GetOrdersByUser(context.TODO(), 1)
+
+	if err != nil {
+		t.Fatalf("mysql: failed to get orders, err: %s", err)
+	}
+
+	// Asserts
+	assert.Equal(t, 2, len(orders))
+}

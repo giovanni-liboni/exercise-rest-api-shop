@@ -59,7 +59,8 @@ func (u userRepository) CreateUser(ctx context.Context, user *entities.User) err
 	} else if err != nil {
 		return err
 	}
-	return nil
+	// Return error if user already exists
+	return entities.ErrUserAlreadyExists
 }
 
 func (u userRepository) UpdateUser(ctx context.Context, user *entities.User) error {

@@ -73,14 +73,14 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 
 	// Authenticated routes (user must be logged in)
 	router.POST("/items/:id/purchase", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"), serveHTTP(hds.ItemHandler.PurchaseItem))
-	router.POST("/orders/:id/pay", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"))           //TODO
-	router.GET("/users/me/orders", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"))           //TODO
-	router.GET("/users/me/orders/:id/items", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user")) //TODO
+	router.POST("/orders/:id/pay", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"), serveHTTP(hds.OrderHandler.PayOrder))
+	router.GET("/users/me/orders", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"), serveHTTP(hds.UserHandler.GetUserOrders))
+	router.GET("/users/me/orders/:id/items", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"), serveHTTP(hds.UserHandler.GetUserOrderItems))
 
 	// Authentication routes
 	router.POST("/auth/login", mds.AuthMiddleware.Middleware.LoginHandler)
 	router.POST("/auth/logout", mds.AuthMiddleware.Middleware.LogoutHandler)
-	router.POST("/auth/register") //TODO
+	router.POST("/auth/register", serveHTTP(hds.UserHandler.CreateUser))
 	router.POST("/auth/refresh", mds.AuthMiddleware.Middleware.RefreshHandler)
 
 	// Admin routes

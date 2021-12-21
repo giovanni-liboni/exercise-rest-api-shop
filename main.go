@@ -1,4 +1,4 @@
-package exercise_rest_api_shop
+package main
 
 import (
 	"github.com/giovanni-liboni/exercise-rest-api-shop/config"

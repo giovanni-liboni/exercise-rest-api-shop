@@ -12,6 +12,7 @@ type Config struct {
 	Server   ServerConfig
 	Jwt      JwtConfig
 	Timezone string
+	StripeAPIKey string
 }
 
 type DatabaseConfig struct {
@@ -81,6 +82,7 @@ func LoadConfig(params ...string) *Config {
 			Secret: os.Getenv("JWT_SECRET"),
 		},
 		Timezone: os.Getenv("TIMEZONE"),
+		StripeAPIKey: os.Getenv("STRIPE_API_KEY"),
 	}
 	return config
 }

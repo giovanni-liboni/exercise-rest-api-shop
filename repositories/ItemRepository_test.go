@@ -193,3 +193,33 @@ func TestItemRepository_DeleteItem(t *testing.T) {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
 }
+
+func TestItemRepository_GetItemsByOrderId(t *testing.T) {
+	t.Parallel()
+
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	mock.ExpectQuery("CALL sp_GetItemsByOrderId").
+		WithArgs(1).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "name", "description", "price", "producer", "category", "created_at", "updated_at"}).
+			AddRow(1, "Item 1", "Description 1", 1.0, "Producer 1", "Category 1", time.Now(), time.Now()).
+			AddRow(2, "Item 2", "Description 2", 2.0, "Producer 2", "Category 2", time.Now(), time.Now()))
+
+	repo := InitItemRepository(sqlx.NewDb(db, "mysql"))
+
+	items, err := repo.GetItemsByOrderId(context.TODO(), 1)
+
+	if err != nil {
+		t.Errorf("error was not expected while getting items by order id: %s", err)
+	}
+
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Errorf("there were unfulfilled expectations: %s", err)
+	}
+
+	assert.Equal(t, 2, len(items))
+}

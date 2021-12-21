@@ -8,11 +8,13 @@ import (
 type Repositories struct {
 	UserRepository repositories.UserRepository
 	ItemRepository repositories.ItemRepository
+	OrderRepository repositories.OrderRepository
 }
 
 func InitRepositories(db *sqlx.DB) *Repositories {
 	return &Repositories{
 		UserRepository: repositories.InitUserRepository(db),
 		ItemRepository: repositories.InitItemRepository(db),
+		OrderRepository: repositories.InitOrderRepository(db),
 	}
 }

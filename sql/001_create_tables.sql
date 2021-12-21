@@ -2,7 +2,7 @@
 # Dialect SQL: mysql
 
 CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS items (
-     id INT PRIMARY KEY AUTO_INCREMENT,
+     id BIGINT PRIMARY KEY AUTO_INCREMENT,
      name VARCHAR(255) NOT NULL,
      producer VARCHAR(255) NOT NULL,
      description TEXT NOT NULL,
@@ -27,19 +27,20 @@ CREATE TABLE IF NOT EXISTS items (
 );
 
 CREATE TABLE IF NOT EXISTS orders (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
     payment_method ENUM('cash', 'card', 'paypal', 'stripe'),
     payment_id VARCHAR(255),
     total_price FLOAT NOT NULL,
-    status ENUM('pending', 'paid', 'cancelled'),
+    status ENUM('created', 'pending', 'paid', 'cancelled'),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS orders_items (
-    order_id INT NOT NULL,
-    item_id INT NOT NULL,
+    order_id BIGINT NOT NULL,
+    item_id BIGINT NOT NULL,
     price FLOAT NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (item_id) REFERENCES items(id)

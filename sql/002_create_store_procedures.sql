@@ -7,25 +7,25 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS sp_GetItem;
-CREATE PROCEDURE sp_GetItem(IN idItem int)
+CREATE PROCEDURE sp_GetItem(IN idItem bigint)
 BEGIN
     select * from items where id=idItem;
 END;
 
 DROP PROCEDURE IF EXISTS sp_CreateItem;
-CREATE PROCEDURE sp_CreateItem(IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category int)
+CREATE PROCEDURE sp_CreateItem(IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category bigint)
 BEGIN
     insert into items (name, producer, description, price, category) values (name, producer, description, price, category);
 END;
 
 DROP PROCEDURE IF EXISTS sp_UpdateItem;
-CREATE PROCEDURE sp_UpdateItem(IN idItem int, IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category int)
+CREATE PROCEDURE sp_UpdateItem(IN idItem bigint, IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category bigint)
 BEGIN
     update items set name=name, producer=producer, description=description, price=price, category=category where id=idItem;
 END;
 
 DROP PROCEDURE IF EXISTS sp_DeleteItem;
-CREATE PROCEDURE sp_DeleteItem(IN idItem int)
+CREATE PROCEDURE sp_DeleteItem(IN idItem bigint)
 BEGIN
     delete from items where id=idItem;
 END;
@@ -39,7 +39,7 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS sp_GetUserById;
-CREATE PROCEDURE sp_GetUserById(IN idUser int)
+CREATE PROCEDURE sp_GetUserById(IN idUser bigint)
 BEGIN
     select * from users where id=idUser;
 END;
@@ -57,13 +57,13 @@ BEGIN
 END;
 
 DROP PROCEDURE IF EXISTS sp_UpdateUser;
-CREATE PROCEDURE sp_UpdateUser(IN idUser int, IN firstName varchar(255), IN lastName varchar(255), IN email varchar(255), IN password varchar(255), IN username varchar(255), IN role varchar(255))
+CREATE PROCEDURE sp_UpdateUser(IN idUser bigint, IN firstName varchar(255), IN lastName varchar(255), IN email varchar(255), IN password varchar(255), IN username varchar(255), IN role varchar(255))
 BEGIN
     update users set firstname=firstName, lastname=lastName, email=email, password=password, username=username, role=role where id=idUser;
 END;
 
 DROP PROCEDURE IF EXISTS sp_DeleteUser;
-CREATE PROCEDURE sp_DeleteUser(IN idUser int)
+CREATE PROCEDURE sp_DeleteUser(IN idUser bigint)
 BEGIN
     delete from users where id=idUser;
 END;
@@ -76,20 +76,38 @@ BEGIN
     select * from orders;
 END;
 
+DROP PROCEDURE IF EXISTS sp_GetOrdersByUserID;
+CREATE PROCEDURE sp_GetOrdersByUserID(IN idUser bigint)
+BEGIN
+    select * from orders where user_id=idUser;
+END;
+
 DROP PROCEDURE IF EXISTS sp_GetOrder;
-CREATE PROCEDURE sp_GetOrder(IN idOrder int)
+CREATE PROCEDURE sp_GetOrder(IN idOrder bigint)
 BEGIN
     select * from orders where id=idOrder;
 END;
 
 DROP PROCEDURE IF EXISTS sp_CreateOrder;
-CREATE PROCEDURE sp_CreateOrder(IN userID int, IN paymentMethod varchar(255), IN total float, IN status varchar(255), paymentMethodID varchar(255))
+CREATE PROCEDURE sp_CreateOrder(IN userID bigint, IN paymentMethod varchar(255), paymentMethodID varchar(255), IN total float, IN status varchar(255) )
 BEGIN
     insert into orders (user_id, payment_method, payment_id, total_price, status) VALUES  (userID, paymentMethod, paymentMethodID, total, status);
 END;
 
 DROP PROCEDURE IF EXISTS sp_UpdateOrder;
-CREATE PROCEDURE sp_UpdateOrder(IN idOrder int, IN userID int, IN paymentMethod varchar(255), IN total float, IN status varchar(255), paymentMethodID varchar(255))
+CREATE PROCEDURE sp_UpdateOrder(IN idOrder bigint, IN userID bigint, IN paymentMethod varchar(255), IN total float, IN status varchar(255), paymentMethodID varchar(255))
 BEGIN
     update orders set user_id=userID, payment_method=paymentMethod, payment_id=paymentMethodID, total_price=total, status=status where id=idOrder;
+END;
+
+DROP PROCEDURE IF EXISTS sp_GetItemsByOrderID;
+CREATE PROCEDURE sp_GetItemsByOrderID(IN idOrder bigint)
+BEGIN
+    select * from items where id in (select item_id from orders_items where order_id=idOrder);
+END;
+
+DROP PROCEDURE IF EXISTS sp_CreateOrderItem;
+CREATE PROCEDURE sp_CreateOrderItem(IN idOrder bigint, IN idItem bigint, IN price float)
+BEGIN
+    insert into orders_items (order_id, item_id, price) VALUES (idOrder, idItem, price);
 END;

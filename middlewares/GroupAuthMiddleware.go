@@ -19,13 +19,13 @@ func InitGroupAuthMiddleware(userRepository repositories.UserRepository) *GroupA
 
 func (gam *GroupAuthMiddleware) MiddlewareFunc(role string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		user := c.MustGet("username")
+		user := c.MustGet("userID")
 		if user == nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
 
-		userEntity, err := gam.userRepository.GetUserByUsername(c, user.(*entities.User).Username)
+		userEntity, err := gam.userRepository.GetUserByID(c, user.(*entities.User).ID)
 		if err != nil {
 			c.AbortWithStatus(http.StatusInternalServerError)
 			return

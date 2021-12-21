@@ -18,7 +18,7 @@ func SetupRouter(globalConfig *config.Config) *gin.Engine {
 	repositories := InitRepositories(db)
 
 	// 3. Initialize the services
-	services := InitServices(repositories)
+	services := InitServices(repositories, globalConfig)
 
 	// 4. Initialize the handlers
 	handlers := InitHandlers(services)
@@ -69,12 +69,13 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 	// Public routes
 	router.GET("/dashboard") //TODO
 	router.GET("/items", serveHTTP(hds.ItemHandler.GetAllItems))
-	router.GET("/items/:id", serveHTTP(hds.ItemHandler.GetItem)) //TODO
+	router.GET("/items/:id", serveHTTP(hds.ItemHandler.GetItem))
 
 	// Authenticated routes (user must be logged in)
-	router.POST("/items/:id/purchase", mds.AuthMiddleware.Middleware.MiddlewareFunc())       //TODO
-	router.GET("/users/me/orders", mds.AuthMiddleware.Middleware.MiddlewareFunc())           //TODO
-	router.GET("/users/me/orders/:id/items", mds.AuthMiddleware.Middleware.MiddlewareFunc()) //TODO
+	router.POST("/items/:id/purchase", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"), serveHTTP(hds.ItemHandler.PurchaseItem))
+	router.POST("/orders/:id/pay", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"))           //TODO
+	router.GET("/users/me/orders", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user"))           //TODO
+	router.GET("/users/me/orders/:id/items", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("user")) //TODO
 
 	// Authentication routes
 	router.POST("/auth/login", mds.AuthMiddleware.Middleware.LoginHandler)

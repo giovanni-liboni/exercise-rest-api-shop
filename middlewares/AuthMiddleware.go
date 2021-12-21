@@ -26,7 +26,7 @@ type AuthMiddleware struct {
 
 func InitAuthMiddleware(config *config.Config, userRepository repositories.UserRepository) *AuthMiddleware {
 	var (
-		identityKey = "username"
+		identityKey = "userID"
 	)
 	// the jwt middleware
 	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
@@ -38,16 +38,23 @@ func InitAuthMiddleware(config *config.Config, userRepository repositories.UserR
 		PayloadFunc: func(data interface{}) jwt.MapClaims {
 			if v, ok := data.(*entities.User); ok {
 				return jwt.MapClaims{
-					identityKey: v.Username,
+					identityKey: v.ID,
 				}
 			}
 			return jwt.MapClaims{}
 		},
 		IdentityHandler: func(c *gin.Context) interface{} {
 			claims := jwt.ExtractClaims(c)
+			userID := claims[identityKey].(float64)
+
+			// Return the entities.User ID
 			return &entities.User{
-				Username: claims[identityKey].(string),
+				ID: int64(userID),
 			}
+
+			//return &entities.User{
+			//	ID: (claims[identityKey]).(int64),
+			//}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
 			// Set a "login" flag in the Gin context to indicate that this is a login

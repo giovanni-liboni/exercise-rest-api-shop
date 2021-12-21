@@ -1,4 +1,3 @@
-
 # Stored Procedures for the item table
 DROP PROCEDURE IF EXISTS `sp_GetItems`;
 CREATE PROCEDURE sp_GetItems()
@@ -110,4 +109,78 @@ DROP PROCEDURE IF EXISTS sp_CreateOrderItem;
 CREATE PROCEDURE sp_CreateOrderItem(IN idOrder bigint, IN idItem bigint, IN price float)
 BEGIN
     insert into orders_items (order_id, item_id, price) VALUES (idOrder, idItem, price);
+END;
+
+
+DROP PROCEDURE IF EXISTS sp_GetTotalNumberOfItems;
+CREATE PROCEDURE sp_GetTotalNumberOfItems()
+BEGIN
+    select count(*) from items;
+END;
+
+DROP PROCEDURE IF EXISTS sp_GetTotalNumberOfUsers;
+CREATE PROCEDURE sp_GetTotalNumberOfUsers()
+BEGIN
+    select count(*) from users;
+END;
+
+DROP PROCEDURE IF EXISTS sp_GetTotalNumberOfOrders;
+CREATE PROCEDURE sp_GetTotalNumberOfOrders()
+BEGIN
+    select count(*) from orders;
+END;
+
+# Procedures to retrieve some statistics about the orders, items and users
+
+DROP PROCEDURE IF EXISTS sp_GetStatLastMonth;
+CREATE PROCEDURE sp_GetStatLastMonth()
+BEGIN
+    select (select sum(total_price) from orders where created_at > DATE_SUB(NOW(), INTERVAL 1 MONTH)) as total_amount,
+        (select count(*) from orders where created_at > DATE_SUB(NOW(), INTERVAL 1 MONTH)) as total_orders,
+        (select count(*) from users where created_at > DATE_SUB(NOW(), INTERVAL 1 MONTH)) as total_users;
+END;
+
+DROP PROCEDURE IF EXISTS sp_GetStatLastWeek;
+CREATE PROCEDURE sp_GetStatLastWeek()
+BEGIN
+    select (select sum(total_price) from orders where created_at > DATE_SUB(NOW(), INTERVAL 1 WEEK)) as total_amount,
+        (select count(*) from orders where created_at > DATE_SUB(NOW(), INTERVAL 1 WEEK)) as total_orders,
+        (select count(*) from users where created_at > DATE_SUB(NOW(), INTERVAL 1 WEEK)) as total_users;
+END;
+
+DROP PROCEDURE IF EXISTS sp_GetStatLastDay;
+CREATE PROCEDURE sp_GetStatLastDay()
+BEGIN
+    select (select sum(total_price) from orders where created_at > DATE_SUB(NOW(), INTERVAL 1 DAY)) as total_amount,
+        (select count(*) from orders where created_at > DATE_SUB(NOW(), INTERVAL 1 DAY)) as total_orders,
+        (select count(*) from users where created_at > DATE_SUB(NOW(), INTERVAL 1 DAY)) as total_users;
+END;
+
+# Get users who have spent more
+DROP PROCEDURE IF EXISTS sp_GetUsersWhoSpentMore;
+CREATE PROCEDURE sp_GetUsersWhoSpentMore()
+BEGIN
+    select u.id, u.username, u.email, u.created_at, sum(oi.price) as total_spent from users u, orders o, orders_items oi where u.id=o.user_id and o.id=oi.order_id group by u.id order by total_spent desc limit 10;
+END;
+
+# Get Most Ordered Items
+DROP PROCEDURE IF EXISTS sp_GetMostOrderedItems;
+CREATE PROCEDURE sp_GetMostOrderedItems()
+BEGIN
+    select i.id, i.name, i.description, i.price, count(*) as total_orders from items i, orders_items oi where i.id=oi.item_id group by i.id order by total_orders desc limit 10;
+END;
+
+# Get least ordered items
+DROP PROCEDURE IF EXISTS sp_GetLeastOrderedItems;
+CREATE PROCEDURE sp_GetLeastOrderedItems()
+BEGIN
+    select i.id, i.name, i.description, i.price, count(*) as total_orders from items i, orders_items oi where i.id=oi.item_id group by i.id order by total_orders
+    limit 10;
+END;
+
+# Get items that have not been ordered
+DROP PROCEDURE IF EXISTS sp_GetItemsNotOrdered;
+CREATE PROCEDURE sp_GetItemsNotOrdered()
+BEGIN
+    select i.id, i.name, i.description, i.price from items i where i.id not in (select oi.item_id from orders_items oi);
 END;

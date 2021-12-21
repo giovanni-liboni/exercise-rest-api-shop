@@ -9,6 +9,7 @@ type Repositories struct {
 	UserRepository repositories.UserRepository
 	ItemRepository repositories.ItemRepository
 	OrderRepository repositories.OrderRepository
+	StatRepository repositories.StatRepository
 }
 
 func InitRepositories(db *sqlx.DB) *Repositories {
@@ -16,5 +17,6 @@ func InitRepositories(db *sqlx.DB) *Repositories {
 		UserRepository: repositories.InitUserRepository(db),
 		ItemRepository: repositories.InitItemRepository(db),
 		OrderRepository: repositories.InitOrderRepository(db),
+		StatRepository: repositories.InitStatRepository(db),
 	}
 }

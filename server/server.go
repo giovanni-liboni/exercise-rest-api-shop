@@ -67,7 +67,7 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 	serveHTTP := ServeHTTP
 
 	// Public routes
-	router.GET("/dashboard") //TODO
+	router.GET("/statistics", serveHTTP(hds.StatHandler.GetPublicStatistics))
 	router.GET("/items", serveHTTP(hds.ItemHandler.GetAllItems))
 	router.GET("/items/:id", serveHTTP(hds.ItemHandler.GetItem))
 
@@ -84,7 +84,7 @@ func initRoutes(router *gin.Engine, hds *Handlers, mds *Middlewares) {
 	router.POST("/auth/refresh", mds.AuthMiddleware.Middleware.RefreshHandler)
 
 	// Admin routes
-	router.GET("/orders/statistics", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin")) //TODO
+	router.GET("/admin/statistics", mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"), serveHTTP(hds.StatHandler.GetAdminStatistics))
 	router.POST("/items", serveHTTP(hds.ItemHandler.CreateItem), mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"))
 	router.PUT("/items/:id", serveHTTP(hds.ItemHandler.UpdateItem), mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"))
 	router.DELETE("/items/:id", serveHTTP(hds.ItemHandler.DeleteItem), mds.AuthMiddleware.Middleware.MiddlewareFunc(), mds.GroupAuthMiddleware.MiddlewareFunc("admin"))

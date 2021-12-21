@@ -361,3 +361,46 @@ func TestCreateUser_UserAlreadyExists(t *testing.T) {
 		})
 }
 
+func TestPublicStatistics(t *testing.T) {
+	globalConfig := config.LoadConfig("../.test.env")
+	// Initialize the router
+	router := SetupRouter(globalConfig)
+	r := gofight.New()
+
+	// Get the public statistics
+	r.GET("/statistics").
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			assert.Equal(t, http.StatusOK, r.Code)
+		})
+}
+
+func TestAdminStatistics(t *testing.T) {
+	globalConfig := config.LoadConfig("../.test.env")
+	// Initialize the router
+	router := SetupRouter(globalConfig)
+	r := gofight.New()
+
+	var token string
+
+	// First authenticate the user
+	r.POST("/auth/login").
+		SetJSON(gofight.D{
+			"username": "admin",
+			"password": "admin",
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			// Retrieve the bearer token from the body
+			tokenRes := gjson.Get(r.Body.String(), "token")
+			token = tokenRes.String()
+		})
+
+	// Then get the user's order items
+
+	r.GET("/admin/statistics").
+		SetHeader(gofight.H{
+			"Authorization": "Bearer " + token,
+		}).
+		Run(router, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+			assert.Equal(t, http.StatusOK, r.Code)
+		})
+}

@@ -7,14 +7,14 @@ import (
 )
 
 type Item struct {
-	ID          int64     `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Price       StringFloat32   `json:"price"`
-	Producer    string    `json:"producer"`
-	Category    string    `json:"category"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	ID          int64         `json:"id"`
+	Name        string        `json:"name"`
+	Description string        `json:"description"`
+	Price       StringFloat64 `json:"price"`
+	Producer    string        `json:"producer"`
+	Category    string        `json:"category"`
+	CreatedAt   time.Time     `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at" db:"updated_at"`
 }
 
 type ItemStat struct {
@@ -23,12 +23,12 @@ type ItemStat struct {
 }
 
 // StringInt create a type alias for type int
-type StringFloat32 float32
+type StringFloat64 float64
 
 // UnmarshalJSON create a custom unmarshal for the StringInt
 /// this helps us check the type of our value before unmarshalling it
 
-func (st *StringFloat32) UnmarshalJSON(b []byte) error {
+func (st *StringFloat64) UnmarshalJSON(b []byte) error {
 	//convert the bytes into an interface
 	//this will help us check the type of our value
 	//if it is a string that can be converted into an int we convert it
@@ -37,11 +37,16 @@ func (st *StringFloat32) UnmarshalJSON(b []byte) error {
 	if err := json.Unmarshal(b, &item); err != nil {
 		return err
 	}
-	float, err := strconv.ParseFloat(item.(string), 32)
-	if err != nil {
-		return err
+	switch v := item.(type) {
+	case float64:
+		*st = StringFloat64(v)
+	case string:
+		float, err := strconv.ParseFloat(item.(string), 64)
+		if err != nil {
+			return err
+		}
+		*st = StringFloat64(float)
 	}
-	*st = StringFloat32(float)
 
 	return nil
 }

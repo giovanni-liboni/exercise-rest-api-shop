@@ -97,7 +97,7 @@ func (i itemHandler) CreateItem(ctx *gin.Context) *entities.AppResult {
 		}
 	}
 	return &entities.AppResult{
-		Data:       nil,
+		Data:       item,
 		Message:    "Created item",
 		StatusCode: http.StatusCreated,
 		Err:        nil,
@@ -112,18 +112,32 @@ func (i itemHandler) UpdateItem(ctx *gin.Context) *entities.AppResult {
 			StatusCode: http.StatusBadRequest,
 			Message:    "Bad request",
 			Data:       nil,
+			Err:        err,
 		}
 	}
+	itemId := ctx.Param("id")
+	// Convert to int64
+	itemIdInt, err := strconv.ParseInt(itemId, 10, 64)
+	if err != nil {
+		log.Errorf("Error converting itemId to int64: %v", err)
+		return &entities.AppResult{
+			StatusCode: http.StatusBadRequest,
+			Message:    "Bad request",
+			Data:       nil,
+		}
+	}
+	item.ID = itemIdInt
 	err = i.itemService.UpdateItem(ctx, &item)
 	if err != nil {
 		return &entities.AppResult{
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Internal server error",
 			Data:       nil,
+			Err:        err,
 		}
 	}
 	return &entities.AppResult{
-		Data:       nil,
+		Data:       item,
 		Message:    "Updated item",
 		StatusCode: http.StatusOK,
 		Err:        nil,
@@ -149,6 +163,7 @@ func (i itemHandler) DeleteItem(ctx *gin.Context) *entities.AppResult {
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Internal server error",
 			Data:       nil,
+			Err:        err,
 		}
 	}
 	return &entities.AppResult{

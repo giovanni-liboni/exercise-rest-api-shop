@@ -179,44 +179,77 @@ On the development machine, you can run the following commands to deploy the app
 - The API is accessible on the server machine (e.g. http://<dokku-host>:8080)
 - The client application used is `httpie` (https://httpie.org/)
 
-#### Get statistics available to the public
+#### Login
 
  ```bash
- http GET http://localhost:8080/statistics
+ http POST http://localhost:8080/auth/login username=<username> password=<password>
  ```
 
 Output:
-```azure
-HTTP/1.1 200 OK
-Content-Length: 342
-Content-Type: application/json; charset=utf-8
-Date: Tue, 21 Dec 2021 22:34:32 GMT
 
+```json
 {
-    "data": {
-        "last_day": {
-            "totalAmount": 1708.480016708374,
-            "totalOrders": 10,
-            "totalUsers": 7
-        },
-        "last_month": {
-            "totalAmount": 1708.480016708374,
-            "totalOrders": 10,
-            "totalUsers": 7
-        },
-        "last_week": {
-            "totalAmount": 1708.480016708374,
-            "totalOrders": 10,
-            "totalUsers": 7
-        },
-        "total_items": 5,
-        "total_orders": 10,
-        "total_users": 7
-    },
-    "message": "Statistics retrieved",
-    "success": true
+    "code": 200,
+    "expire": "2021-12-21T15:07:32Z",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDAxODU2NTIsIm9yaWdfaWF0IjoxNjQwMTgyMDUyLCJ1c2VySUQiOjZ9.yg-a4SgeKgK74fsb2PrnREFYPIwst1WFKM5Xga1t2E4"
 }
 ```
+
+#### Get the list of orders
+
+ ```bash
+ http GET http://localhost:8080/users/me/orders "Authorization:Bearer <token>"
+ ```
+
+ Output:
+
+ ```json
+HTTP/1.1 200 OK
+Content-Length: 634
+Content-Type: application/json; charset=utf-8
+Date: Wed, 22 Dec 2021 14:10:18 GMT
+        
+{
+   "data": [
+      {
+         "created_at": "2021-12-22T13:51:35Z",
+         "id": 6,
+         "items": null,
+         "payment_id": "432423423423",
+         "payment_method": "card",
+         "status": "created",
+         "total_price": 110.13,
+         "updated_at": "2021-12-22T13:51:35Z",
+         "user_id": 6
+      },
+      {
+         "created_at": "2021-12-22T13:51:35Z",
+         "id": 7,
+         "items": null,
+         "payment_id": "532525454545",
+         "payment_method": "paypal",
+         "status": "paid",
+         "total_price": 13.2,
+         "updated_at": "2021-12-22T13:51:35Z",
+         "user_id": 6
+      },
+      {
+         "created_at": "2021-12-22T13:51:35Z",
+         "id": 8,
+         "items": null,
+         "payment_id": "232342342324234",
+         "payment_method": "card",
+         "status": "created",
+         "total_price": 213.41,
+         "updated_at": "2021-12-22T13:51:35Z",
+         "user_id": 6
+      }
+   ],
+   "message": "OK",
+   "success": true
+}
+```
+
 
 #### Get all available items
 
@@ -226,7 +259,7 @@ Date: Tue, 21 Dec 2021 22:34:32 GMT
 
 Output:
 
-```azure
+```json
 HTTP/1.1 200 OK
 Content-Length: 1254
 Content-Type: application/json; charset=utf-8
@@ -298,7 +331,7 @@ Date: Tue, 21 Dec 2021 22:36:27 GMT
 
 Output:
 
-```azure
+```json
 HTTP/1.1 200 OK
 Content-Length: 257
 Content-Type: application/json; charset=utf-8
@@ -329,7 +362,7 @@ http POST http://localhost:8080/items name="The Misty Cup" price="244.3" produce
 
 Output:
 
- ```azure
+ ```json
 HTTP/1.1 201 Created
 Content-Length: 53
 Content-Type: application/json; charset=utf-8
@@ -347,14 +380,324 @@ Date: Tue, 21 Dec 2021 23:01:28 GMT
 1. Purchase an item and create a new order.
 
  ```bash
-http POST http://localhost:8080/items/1/purchase
+http POST http://localhost:8080/items/1/purchase "Authorization:Bearer <token>"
+```
+
+Output:
+
+```json
+HTTP/1.1 201 Created
+Content-Length: 485
+Content-Type: application/json; charset=utf-8
+Date: Wed, 22 Dec 2021 14:12:57 GMT
+
+{
+    "data": {
+        "created_at": "0001-01-01T00:00:00Z",
+        "id": 9,
+        "items": [
+            {
+                "category": "home",
+                "created_at": "2021-12-22T13:51:35Z",
+                "description": "Quos vel ut esse incidunt minima minima quae.",
+                "id": 2,
+                "name": "The Begging Jug",
+                "price": 302.1,
+                "producer": "Parker, Hyatt and Kris",
+                "updated_at": "2021-12-22T13:51:35Z"
+            }
+        ],
+        "payment_id": "",
+        "payment_method": "stripe",
+        "status": "created",
+        "total_price": 302.1,
+        "updated_at": "0001-01-01T00:00:00Z",
+        "user_id": 6
+    },
+    "message": "Purchased item: order created",
+    "success": true
+}
 ```
 
 2. Pay the order
 
 ```bash
-http POST http://localhost:8080/orders/1/pay
+http POST http://localhost:8080/orders/9/pay "Authorization:Bearer <token>"
 ```
+
+Output:
+
+```json
+HTTP/1.1 200 OK
+Content-Length: 482
+Content-Type: application/json; charset=utf-8
+Date: Wed, 22 Dec 2021 14:13:48 GMT
+
+{
+    "data": {
+        "created_at": "2021-12-22T14:12:57Z",
+        "id": 9,
+        "items": [
+            {
+                "category": "home",
+                "created_at": "2021-12-22T13:51:35Z",
+                "description": "Quos vel ut esse incidunt minima minima quae.",
+                "id": 2,
+                "name": "The Begging Jug",
+                "price": 302.1,
+                "producer": "Parker, Hyatt and Kris",
+                "updated_at": "2021-12-22T13:51:35Z"
+            }
+        ],
+        "payment_id": "ch_3K9VZfIfr49YY8SJ2Zxl6iZJ",
+        "payment_method": "stripe",
+        "status": "paid",
+        "total_price": 302.1,
+        "updated_at": "2021-12-22T14:12:57Z",
+        "user_id": 6
+    },
+    "message": "OK",
+    "success": true
+}
+```
+
+#### Public statistics 
+
+ ```bash
+ http GET http://localhost:8080/statistics
+ ```
+
+ Output:
+   - Total amount of all orders
+   - Total registered users
+   - Total amount of all items
+   - Total amount of registered users, orders, and items for last month, last week, and yesterday
+   
+```json
+HTTP/1.1 200 OK
+
+{
+   "success": true,
+   "message": "Statistics retrieved",
+   "data": {
+      "last_day": {
+         "totalAmount": 1219.8800106048584,
+         "totalOrders": 8,
+         "totalUsers": 7
+      },
+      "last_month": {
+         "totalAmount": 1219.8800106048584,
+         "totalOrders": 8,
+         "totalUsers": 7
+      },
+      "last_week": {
+         "totalAmount": 1219.8800106048584,
+         "totalOrders": 8,
+         "totalUsers": 7
+      },
+      "total_items": 5,
+      "total_orders": 8,
+      "total_users": 7
+   }
+}
+``` 
+
+#### Admin statistics
+
+ ```bash
+ http GET http://localhost:8080/statistics/admin
+ ```
+
+ Output:
+   - Total amount of all orders
+   - Total registered users
+   - Total amount of all items
+   - Total amount of registered users, orders, and items for last month, last week, and yesterday
+   - Best selling items
+   - Most profitable users
+   - Worst selling items
+   - Items not sold
+
+ ```json
+HTTP/1.1 200 OK
+
+{
+    "success": true,
+    "message": "Statistics retrieved",
+    "data": {
+        "items_not_ordered": [
+            {
+                "id": 5,
+                "name": "The Performing Window Boutique",
+                "description": "Enim provident velit blanditiis ut exercitationem.",
+                "price": 213.41,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 0
+            }
+        ],
+        "last_day": {
+            "totalAmount": 1219.8800106048584,
+            "totalOrders": 8,
+            "totalUsers": 7
+        },
+        "last_month": {
+            "totalAmount": 1219.8800106048584,
+            "totalOrders": 8,
+            "totalUsers": 7
+        },
+        "last_week": {
+            "totalAmount": 1219.8800106048584,
+            "totalOrders": 8,
+            "totalUsers": 7
+        },
+        "least_ordered_items": [
+            {
+                "id": 4,
+                "name": "The Challenging Stove Salon",
+                "description": "Quae quis laborum odio provident.",
+                "price": 13.2,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 1
+            },
+            {
+                "id": 1,
+                "name": "The Misty Cup",
+                "description": "Et sunt culpa unde distinctio quos.",
+                "price": 244.3,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 2
+            },
+            {
+                "id": 2,
+                "name": "The Begging Jug",
+                "description": "Quos vel ut esse incidunt minima minima quae.",
+                "price": 302.1,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 2
+            },
+            {
+                "id": 3,
+                "name": "The Expensive Flower",
+                "description": "Earum aliquid deleniti beatae quibusdam inventore itaque velit voluptas.",
+                "price": 110.13,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 2
+            }
+        ],
+        "most_ordered_items": [
+            {
+                "id": 1,
+                "name": "The Misty Cup",
+                "description": "Et sunt culpa unde distinctio quos.",
+                "price": 244.3,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 2
+            },
+            {
+                "id": 2,
+                "name": "The Begging Jug",
+                "description": "Quos vel ut esse incidunt minima minima quae.",
+                "price": 302.1,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 2
+            },
+            {
+                "id": 3,
+                "name": "The Expensive Flower",
+                "description": "Earum aliquid deleniti beatae quibusdam inventore itaque velit voluptas.",
+                "price": 110.13,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 2
+            },
+            {
+                "id": 4,
+                "name": "The Challenging Stove Salon",
+                "description": "Quae quis laborum odio provident.",
+                "price": 13.2,
+                "producer": "",
+                "category": "",
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "total_orders": 1
+            }
+        ],
+        "total_items": 5,
+        "total_orders": 8,
+        "total_users": 7,
+        "users_spend_more": [
+            {
+                "id": 1,
+                "username": "keeling.else",
+                "firstname": "",
+                "lastname": "",
+                "email": "kayla.hilpert@gmail.com",
+                "created_at": "2021-12-22T01:35:16Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "orders": null,
+                "total_spent": 656.5300064086914
+            },
+            {
+                "id": 3,
+                "username": "forrest75",
+                "firstname": "",
+                "lastname": "",
+                "email": "dawn47@hotmail.com",
+                "created_at": "2021-12-22T01:35:16Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "orders": null,
+                "total_spent": 302.1000061035156
+            },
+            {
+                "id": 6,
+                "username": "test",
+                "firstname": "",
+                "lastname": "",
+                "email": "botsford.carlee@yahoo.com",
+                "created_at": "2021-12-22T01:35:16Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "orders": null,
+                "total_spent": 244.3000030517578
+            },
+            {
+                "id": 2,
+                "username": "parker.annie",
+                "firstname": "",
+                "lastname": "",
+                "email": "ereilly@gmail.com",
+                "created_at": "2021-12-22T01:35:16Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "orders": null,
+                "total_spent": 123.3299970626831
+            }
+        ]
+    }
+}
+```
+
 
 <!-- CONTRIBUTING -->
 ## Contributing

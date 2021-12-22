@@ -41,7 +41,29 @@ func (i itemService) CreateItem(ctx context.Context, item *entities.Item) error 
 }
 
 func (i itemService) UpdateItem(ctx context.Context, item *entities.Item) error {
-	return i.itemRepository.UpdateItem(ctx, item)
+	// Get the current item
+	currentItem, err := i.GetItem(ctx, item.ID)
+	if err != nil {
+		return err
+	}
+	// Update the items fields with the new values
+	if item.Name != "" {
+		currentItem.Name = item.Name
+	}
+	if item.Description != "" {
+		currentItem.Description = item.Description
+	}
+	if item.Price != 0 {
+		currentItem.Price = item.Price
+	}
+	if item.Producer != "" {
+		currentItem.Producer = item.Producer
+	}
+	if item.Category != "" {
+		currentItem.Category = item.Category
+	}
+
+	return i.itemRepository.UpdateItem(ctx, currentItem)
 }
 
 func (i itemService) DeleteItem(ctx context.Context, id int64) error {
@@ -69,12 +91,12 @@ func (i itemService) PurchaseItem(ctx context.Context, id int64, userId int64) (
 		PaymentMethod: "stripe",
 	}
 
-	// Create the order
-	_, err = i.orderRepository.CreateOrder(ctx, &order)
+	// Save the order in the database
+	orderCreated, err := i.orderRepository.CreateOrder(ctx, &order)
 	if err != nil {
 		log.Errorf("Error creating order: %v", err)
 		return nil, err
 	}
 
-	return &order, nil
+	return orderCreated, nil
 }

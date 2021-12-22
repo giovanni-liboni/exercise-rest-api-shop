@@ -80,7 +80,7 @@ func TestItemRepository_GetItem(t *testing.T) {
 	assert.Equal(t, int64(1), item.ID)
 	assert.Equal(t, "Item 1", item.Name)
 	assert.Equal(t, "Description 1", item.Description)
-	assert.Equal(t, entities.StringFloat32(1.0), item.Price)
+	assert.Equal(t, entities.StringFloat64(1.0), item.Price)
 	assert.Equal(t, "Producer 1", item.Producer)
 	assert.Equal(t, "Category 1", item.Category)
 	assert.Equal(t, timestamp, item.CreatedAt)
@@ -105,7 +105,7 @@ func TestItemRepository_CreateItem(t *testing.T) {
 	item := &entities.Item{
 		Name:        "Sample item",
 		Description: "Sample description",
-		Price:       entities.StringFloat32(1.0),
+		Price:       entities.StringFloat64(1.0),
 		Producer:    "Sample producer",
 		Category:    "Sample category",
 	}
@@ -121,7 +121,7 @@ func TestItemRepository_CreateItem(t *testing.T) {
 
 	assert.Equal(t, "Sample item", item.Name)
 	assert.Equal(t, "Sample description", item.Description)
-	assert.Equal(t, entities.StringFloat32(1.0), item.Price)
+	assert.Equal(t, entities.StringFloat64(1.0), item.Price)
 	assert.Equal(t, "Sample producer", item.Producer)
 	assert.Equal(t, "Sample category", item.Category)
 
@@ -146,7 +146,7 @@ func TestItemRepository_UpdateItem(t *testing.T) {
 		ID:          1,
 		Name:        "Sample item",
 		Description: "Sample description",
-		Price:       entities.StringFloat32(1.0),
+		Price:       entities.StringFloat64(1.0),
 		Producer:    "Sample producer",
 		Category:    "Sample category",
 	}
@@ -163,7 +163,7 @@ func TestItemRepository_UpdateItem(t *testing.T) {
 	assert.Equal(t, int64(1), item.ID)
 	assert.Equal(t, "Sample item", item.Name)
 	assert.Equal(t, "Sample description", item.Description)
-	assert.Equal(t, entities.StringFloat32(1.0), item.Price)
+	assert.Equal(t, entities.StringFloat64(1.0), item.Price)
 	assert.Equal(t, "Sample producer", item.Producer)
 	assert.Equal(t, "Sample category", item.Category)
 

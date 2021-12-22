@@ -11,7 +11,7 @@ type User struct {
 	Email     string    `json:"email" db:"email"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Role      string    `json:"role" db:"role"`
+	Role      string    `json:"-" db:"role"`
 	Orders    []Order   `json:"orders"`
 }
 

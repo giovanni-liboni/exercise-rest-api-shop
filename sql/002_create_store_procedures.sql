@@ -28,7 +28,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_UpdateItem;
 DELIMITER $$
-CREATE PROCEDURE sp_UpdateItem(IN idItem bigint, IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category bigint)
+CREATE PROCEDURE sp_UpdateItem(IN idItem bigint, IN name varchar(255), IN producer varchar(255), IN description varchar(255), IN price float, IN category varchar(255))
 BEGIN
     update items set name=name, producer=producer, description=description, price=price, category=category where id=idItem;
 END;
@@ -120,6 +120,15 @@ END;
 $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS sp_GetOrdersByUserIDAndStatus;
+DELIMITER $$
+CREATE PROCEDURE sp_GetOrdersByUserIDAndStatus(IN idUser bigint, IN _status varchar(255))
+BEGIN
+    select * from orders where user_id=idUser and status=_status;
+END;
+$$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS sp_GetOrder;
 DELIMITER $$
 CREATE PROCEDURE sp_GetOrder(IN idOrder bigint)
@@ -131,18 +140,19 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_CreateOrder;
 DELIMITER $$
-CREATE PROCEDURE sp_CreateOrder(IN userID bigint, IN paymentMethod varchar(255), paymentMethodID varchar(255), IN total float, IN status varchar(255) )
+CREATE PROCEDURE sp_CreateOrder(IN userID bigint, IN paymentMethod varchar(255), paymentMethodID varchar(255), IN total float, IN _status varchar(255), OUT LID bigint)
 BEGIN
-    insert into orders (user_id, payment_method, payment_id, total_price, status) VALUES  (userID, paymentMethod, paymentMethodID, total, status);
+    insert into orders (user_id, payment_method, payment_id, total_price, status) VALUES  (userID, paymentMethod, paymentMethodID, total, _status);
+    set LID = LAST_INSERT_ID();
 END;
 $$
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_UpdateOrder;
 DELIMITER $$
-CREATE PROCEDURE sp_UpdateOrder(IN idOrder bigint, IN userID bigint, IN paymentMethod varchar(255), IN total float, IN status varchar(255), paymentMethodID varchar(255))
+CREATE PROCEDURE sp_UpdateOrder(IN idOrder bigint, IN userID bigint, IN paymentMethod varchar(255), IN total float, IN _status varchar(255), paymentMethodID varchar(255))
 BEGIN
-    update orders set user_id=userID, payment_method=paymentMethod, payment_id=paymentMethodID, total_price=total, status=status where id=idOrder;
+    update orders set user_id=userID, payment_method=paymentMethod, payment_id=paymentMethodID, total_price=total, status=_status where id=idOrder;
 END;
 $$
 DELIMITER ;

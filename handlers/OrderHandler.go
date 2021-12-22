@@ -62,8 +62,17 @@ func (o orderHandler) GetOrder(ctx *gin.Context) *entities.AppResult {
 func (o orderHandler) GetOrders(ctx *gin.Context) *entities.AppResult {
 	// Get the current authenticated user
 	user := ctx.MustGet("userID").(*entities.User)
+	status := ctx.Query("status")
 
-	orders, err := o.orderService.GetOrdersByUser(ctx, user.ID)
+	var orders []*entities.Order
+	var err error
+
+	if status != "" {
+		orders, err = o.orderService.GetOrdersByUserAndStatus(ctx, user.ID, status)
+	} else {
+		orders, err = o.orderService.GetOrdersByUser(ctx, user.ID)
+	}
+
 	if err != nil {
 		log.Errorf("Error getting orders: %v", err)
 		return &entities.AppResult{

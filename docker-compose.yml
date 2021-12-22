@@ -1,19 +1,19 @@
 version: '2.1'
 
 services:
-  web:
-    build: .
-    restart: always
-    ports:
-      - "8080:8080"
-    volumes:
-      - .env:/app/.env
-    depends_on:
-      - db
-    environment:
-      WAIT_HOSTS: mysql:3306
-      WAIT_BEFORE: 30
-      DATABASE_URL: mysql://testuser:testpass@mysql:3306/test
+#  web:
+#    build: .
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - .env:/app/.env
+#    depends_on:
+#      - db
+#    environment:
+#      WAIT_HOSTS: mysql:3306
+#      WAIT_BEFORE: 30
+#      DATABASE_URL: mysql://testuser:testpass@mysql:3306/test
   db:
     image: mysql:5.7
     hostname: mysql

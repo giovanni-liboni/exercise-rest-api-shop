@@ -36,12 +36,23 @@ func (i itemRepository) GetItem(ctx context.Context, id int64) (*entities.Item, 
 }
 
 func (i itemRepository) CreateItem(ctx context.Context, item *entities.Item) error {
-	_, err := i.db.NamedExecContext(ctx, "CALL sp_CreateItem(:name, :producer, :description, :price, :category)", item)
+	res, err := i.db.NamedExecContext(ctx, "CALL sp_CreateItem(:name, :producer, :description, :price, :category)", item)
+	if err != nil {
+		return err
+	}
+	id, err := res.LastInsertId()
+	if err != nil {
+		return err
+	}
+	item.ID = id
 	return err
 }
 
 func (i itemRepository) UpdateItem(ctx context.Context, item *entities.Item) error {
 	_, err := i.db.NamedExecContext(ctx, "CALL sp_UpdateItem(:id, :name, :producer, :description, :price, :category)", item)
+	if err != nil {
+		return err
+	}
 	return err
 }
 

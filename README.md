@@ -93,7 +93,22 @@ This project is for educational purposes.
 - MySQL (5.7)
 - Postman - https://www.getpostman.com/
 - Stripe API Key - https://dashboard.stripe.com/account/apikeys
-- Dokku on a server - https://dokku.viewdocs.io/dokku/getting-started/installation
+- Dokku on a server (optional) - https://dokku.viewdocs.io/dokku/getting-started/installation
+- Docker Compose (optional) - https://docs.docker.com/compose/install/
+- Docker (optional) - https://docs.docker.com/install/
+
+### Local development using Docker Compose
+
+1. Launch the Docker Compose file. It will start the MySQL and web application containers. (Ports 3306 and 8080)
+
+    docker-compose up -d
+
+2. Open the browser and navigate to http://localhost:8080
+
+### Deployment on Heroku
+
+Notes:
+- The MySQL database is provided by Heroku and its current version is 8.0;
 
 ### Deployment on Dokku
 

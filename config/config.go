@@ -54,7 +54,7 @@ func parseDatabaseUrl() {
 	}
 	u, _ := url.Parse(databaseUrl)
 
-	err := os.Setenv("DB_HOST", u.Host)
+	err := os.Setenv("DB_HOST", u.Hostname())
 	if err != nil {
 		log.Errorln("Error setting DB_HOST", err)
 	}

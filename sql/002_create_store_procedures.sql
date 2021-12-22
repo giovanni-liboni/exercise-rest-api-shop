@@ -1,5 +1,6 @@
 # Stored Procedures for the item table
-DROP PROCEDURE IF EXISTS `sp_GetItems`;
+DROP PROCEDURE IF EXISTS sp_GetItems;
+
 CREATE PROCEDURE sp_GetItems()
 BEGIN
     select * from items;
@@ -99,8 +100,8 @@ BEGIN
     update orders set user_id=userID, payment_method=paymentMethod, payment_id=paymentMethodID, total_price=total, status=status where id=idOrder;
 END;
 
-DROP PROCEDURE IF EXISTS sp_GetItemsByOrderID;
-CREATE PROCEDURE sp_GetItemsByOrderID(IN idOrder bigint)
+DROP PROCEDURE IF EXISTS sp_GetOrderItems;
+CREATE PROCEDURE sp_GetOrderItems(IN idOrder bigint)
 BEGIN
     select * from items where id in (select item_id from orders_items where order_id=idOrder);
 END;

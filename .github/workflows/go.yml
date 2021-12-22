@@ -19,7 +19,7 @@ jobs:
           MYSQL_USER: testuser
           MYSQL_PASSWORD: testpass
         ports:
-          - 21208:3306
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
@@ -38,8 +38,8 @@ jobs:
       - name: Test
         run: go test -v ./...
         env:
-          DB_HOST: 127.0.0.1
-          DB_PORT: 21208
+          DB_HOST: localhost
+          DB_PORT: 3306
           DB_USER: testuser
           DB_PASS: testpass
           DB_NAME: test

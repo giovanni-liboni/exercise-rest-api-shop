@@ -1,3 +1,4 @@
+// +heroku goVersion go1.17
 module github.com/giovanni-liboni/exercise-rest-api-shop
 
 go 1.17

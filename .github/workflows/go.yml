@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: golang:alpine
     services:
       mysql:
         image: mysql:5.7
@@ -20,15 +19,8 @@ jobs:
           MYSQL_USER: testuser
           MYSQL_PASSWORD: testpass
         ports:
-          - 3306:3306
+          - 21208:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    env:
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: testuser
-      DB_PASS: testpass
-      DB_NAME: test
-      STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Load database tables
@@ -45,3 +37,10 @@ jobs:
         run: go build -v ./...
       - name: Test
         run: go test -v ./...
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 21208
+          DB_USER: testuser
+          DB_PASS: testpass
+          DB_NAME: test
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}

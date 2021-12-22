@@ -32,11 +32,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Load database tables
-        run: docker exec -i ${{ job.services.mysql.id }} mysql -uroot  -psecret  test < /workspace/sql/001_create_tables.sql
+        run: docker exec -i ${{ job.services.mysql.id }} mysql -uroot  -psecret  test < ./sql/001_create_tables.sql
       - name: Load database procedures
-        run: docker exec -i mysql mysql -uroot  -psecret  test < /workspace/sql/002_create_store_procedures.sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/002_create_store_procedures.sql
       - name: Load database test data
-        run: docker exec -i mysql mysql -uroot  -psecret  test < /workspace/sql/003_populate_test_data.sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/003_populate_test_data.sql
       - name: Set up Go
         uses: actions/setup-go@v2
         with:

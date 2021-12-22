@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: golang:alpine
     services:
       mysql:
         image: mysql:5.7
@@ -27,6 +28,7 @@ jobs:
       DB_USER: testuser
       DB_PASS: testpass
       DB_NAME: test
+      STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Load database tables

@@ -21,16 +21,21 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        volumes:
+          - ${{ github.workspace }}:/workspace
+    env:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: testuser
+      DB_PASS: testpass
+      DB_NAME: test
     steps:
       - name: Load database tables
-        run: docker exec -i mysql mysql -uroot  -psecret  test < ./001_create_tables.sql
-        working-directory: sql
+        run: docker exec -i ${{ job.services.mysql.id }} mysql -uroot  -psecret  test < /workspace/sql/001_create_tables.sql
       - name: Load database procedures
-        run: docker exec -i mysql mysql -uroot  -psecret  test < ./002_create_store_procedures.sql
-        working-directory: sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < /workspace/sql/002_create_store_procedures.sql
       - name: Load database test data
-        run: docker exec -i mysql mysql -uroot  -psecret  test < ./003_populate_test_data.sql
-        working-directory: sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < /workspace/sql/003_populate_test_data.sql
       - uses: actions/checkout@v2
       - name: Set up Go
         uses: actions/setup-go@v2

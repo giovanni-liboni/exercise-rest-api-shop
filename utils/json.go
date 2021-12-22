@@ -2,7 +2,7 @@ package utils
 
 import "encoding/json"
 
-func GetKeysJSON(data []byte) []string 	{
+func GetKeysJSON(data []byte) []string {
 	// a map container to decode the JSON structure into
 	c := make(map[string]json.RawMessage)
 

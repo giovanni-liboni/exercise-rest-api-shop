@@ -30,9 +30,20 @@ func InitUserHandler(userService services.UserService, orderService services.Ord
 func (u userHandler) GetUserOrders(ctx *gin.Context) *entities.AppResult {
 	// Get the current authenticated userID
 	user := ctx.MustGet("userID").(*entities.User)
+	status := ctx.Query("status")
 
 	// Get the orders for the current user
-	orders, err := u.orderService.GetOrdersByUser(ctx, user.ID)
+	var orders []*entities.Order
+	var err error
+
+	log.Infoln("Status: ", status)
+
+	if status != "" {
+		orders, err = u.orderService.GetOrdersByUserAndStatus(ctx, user.ID, status)
+	} else {
+		orders, err = u.orderService.GetOrdersByUser(ctx, user.ID)
+	}
+
 	if err != nil {
 		log.Errorf("Error getting orders: %v", err)
 		return &entities.AppResult{

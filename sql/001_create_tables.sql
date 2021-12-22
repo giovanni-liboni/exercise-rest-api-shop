@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS orders_items (
     item_id BIGINT NOT NULL,
     price FLOAT NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (item_id) REFERENCES items(id)
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE
 );
 
 ALTER TABLE users AUTO_INCREMENT=0;

@@ -7,14 +7,14 @@ import (
 )
 
 type Item struct {
-	ID          int64     `json:"id"`
-	Name        string    `json:"name"`
+	ID          int64         `json:"id"`
+	Name        string        `json:"name"`
 	Description string        `json:"description"`
 	Price       StringFloat64 `json:"price"`
 	Producer    string        `json:"producer"`
-	Category    string    `json:"category"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
+	Category    string        `json:"category"`
+	CreatedAt   time.Time     `json:"created_at" db:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at" db:"updated_at"`
 }
 
 type ItemStat struct {
@@ -47,7 +47,6 @@ func (st *StringFloat64) UnmarshalJSON(b []byte) error {
 		}
 		*st = StringFloat64(float)
 	}
-
 
 	return nil
 }

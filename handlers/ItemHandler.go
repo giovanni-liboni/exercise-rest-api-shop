@@ -112,7 +112,7 @@ func (i itemHandler) UpdateItem(ctx *gin.Context) *entities.AppResult {
 			StatusCode: http.StatusBadRequest,
 			Message:    "Bad request",
 			Data:       nil,
-			Err: err,
+			Err:        err,
 		}
 	}
 	itemId := ctx.Param("id")
@@ -133,7 +133,7 @@ func (i itemHandler) UpdateItem(ctx *gin.Context) *entities.AppResult {
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Internal server error",
 			Data:       nil,
-			Err: err,
+			Err:        err,
 		}
 	}
 	return &entities.AppResult{
@@ -163,6 +163,7 @@ func (i itemHandler) DeleteItem(ctx *gin.Context) *entities.AppResult {
 			StatusCode: http.StatusInternalServerError,
 			Message:    "Internal server error",
 			Data:       nil,
+			Err:        err,
 		}
 	}
 	return &entities.AppResult{

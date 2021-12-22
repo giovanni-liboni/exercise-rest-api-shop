@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/giovanni-liboni/exercise-rest-api-shop/entities"
 	"github.com/jmoiron/sqlx"
+	log "github.com/sirupsen/logrus"
 )
 
 type orderRepository struct {
@@ -44,7 +45,7 @@ func (o orderRepository) GetOrder(ctx context.Context, id int64) (*entities.Orde
 
 func (o orderRepository) CreateOrder(ctx context.Context, order *entities.Order) (*entities.Order, error) {
 	query := "INSERT INTO orders (user_id, payment_method, payment_id, total_price, status) " +
-					"VALUES  (:user_id, :payment_method, :payment_id, :total_price, :status)"
+		"VALUES  (:user_id, :payment_method, :payment_id, :total_price, :status)"
 	res, err := o.db.NamedExecContext(ctx, query, order)
 	if err != nil {
 		return nil, err
@@ -74,6 +75,11 @@ func (o orderRepository) GetOrderItems(ctx context.Context, orderID int64) ([]*e
 
 func (o orderRepository) GetOrdersByUserIDAndStatus(ctx context.Context, userID int64, status string) ([]*entities.Order, error) {
 	var orders []*entities.Order
+	log.Infoln("CALL sp_GetOrdersByUserIDAndStatus(?, ?)", userID, status)
 	err := o.db.SelectContext(ctx, &orders, "CALL sp_GetOrdersByUserIDAndStatus(?, ?)", userID, status)
+	// print the orders
+	for _, order := range orders {
+		log.Infoln("Order: ", order)
+	}
 	return orders, err
 }

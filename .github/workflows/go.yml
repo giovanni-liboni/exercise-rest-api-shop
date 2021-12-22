@@ -40,7 +40,7 @@ jobs:
         env:
           DB_HOST: localhost
           DB_PORT: 3306
-          DB_USER: testuser
-          DB_PASS: testpass
+          DB_USER: root
+          DB_PASS: secret
           DB_NAME: test
           STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}

@@ -23,11 +23,14 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Load database tables
-        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/001_create_tables.sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./001_create_tables.sql
+        working-directory: sql
       - name: Load database procedures
-        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/002_create_store_procedures.sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./002_create_store_procedures.sql
+        working-directory: sql
       - name: Load database test data
-        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/003_populate_test_data.sql
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./003_populate_test_data.sql
+        working-directory: sql
       - uses: actions/checkout@v2
       - name: Set up Go
         uses: actions/setup-go@v2

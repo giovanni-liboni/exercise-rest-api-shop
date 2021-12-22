@@ -3,6 +3,7 @@ version: '2.1'
 services:
   web:
     build: .
+    restart: always
     ports:
       - "8080:8080"
     volumes:

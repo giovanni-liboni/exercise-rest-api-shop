@@ -10,7 +10,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_DATABASE: test
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
+      - name: Load database tables
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/001_create_tables.sql
+      - name: Load database procedures
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/002_create_store_procedures.sql
+      - name: Load database test data
+        run: docker exec -i mysql mysql -uroot  -psecret  test < ./sql/003_populate_test_data.sql
       - uses: actions/checkout@v2
       - name: Set up Go
         uses: actions/setup-go@v2

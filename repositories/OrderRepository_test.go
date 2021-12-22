@@ -90,7 +90,7 @@ func TestOrderRepository_CreateOrder(t *testing.T) {
 	}
 	defer db.Close()
 
-	mock.ExpectExec("CALL sp_CreateOrder").
+	mock.ExpectExec("INSERT INTO orders").
 		WithArgs(1, "paypal", "4382408943", 100.00, "pending").
 		WillReturnResult(sqlmock.NewResult(1, 1))
 
